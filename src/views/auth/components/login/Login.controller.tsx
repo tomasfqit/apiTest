@@ -1,10 +1,10 @@
 import { useLoginUIHook } from "./LoginUI.hook";
-import { LoginUI } from "./LoginUI.view";
+import { LoginUIView } from "./LoginUI.view";
 
-const LoginControllerUI = () => {
+const LoginUI = () => {
 	const hookData = useLoginUIHook();
 
-	return <LoginUI {...hookData} />;
+	return <LoginUIView {...hookData} />;
 };
 
-export default LoginControllerUI;
+export default LoginUI;

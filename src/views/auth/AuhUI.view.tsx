@@ -1,8 +1,8 @@
-import LoginControllerUI from "./components/login/Login.controller";
+import LoginUI from "./components/login/Login.controller";
 
 const AuthUI = () => {
 	return <div className="w-screen h-screen">
-		<LoginControllerUI />
+		<LoginUI />
 	</div>;
 };
 

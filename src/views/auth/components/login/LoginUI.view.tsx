@@ -4,8 +4,12 @@ import { ILoginUIHookProps } from "./LoginUI.hook";
 
 
 
-export const LoginUI: React.FC<ILoginUIHookProps> = ({ control }) => {
+export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, watch, register }) => {
 	const backgroundImage = getBackgroundImageByDay();
+	const onSubmit = () => {
+		console.log('variables =>', watch());
+	};
+
 	return <div
 		className={`min-h-screen flex items-center justify-center relative bg-cover bg-center bg-no-repeat`}
 		style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -22,9 +26,9 @@ export const LoginUI: React.FC<ILoginUIHookProps> = ({ control }) => {
 						/>
 					</div>
 					<div className="text-3xl font-bold text-black">Iniciar Sesión</div>
-					<Input type={EInput.text} label="Usuario" name="user" control={control} />
-					<Input type={EInput.password} label="Contraseña" name="password" control={control} />
-					<Button text="Iniciar sesión" />
+					<Input type={EInput.text} label="Usuario" control={control} {...register("username")} />
+					<Input type={EInput.password} label="Contraseña" control={control} {...register("password")} />
+					<Button text="Iniciar sesión" onClick={onSubmit} />
 				</div>
 			</Card>
 		</div>
