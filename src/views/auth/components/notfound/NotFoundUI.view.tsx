@@ -1,3 +1,9 @@
+import { ErrorPage } from "@ITSA-Nucleo/itsa-fe-components";
+
 export const NotFoundUI = () => {
-	return <div>NotFoundUI</div>;
+	return <ErrorPage
+		error="404"
+		handleClick={() => { }}
+		message="Página no encontrada"
+	/>;
 };

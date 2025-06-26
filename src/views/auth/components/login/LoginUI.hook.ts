@@ -1,7 +1,7 @@
+import { errorMsgRequired } from '@/helpers/functions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Control, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { z } from 'zod';
-import { errorMsgRequired } from '../../../../helpers/functions';
 
 interface ILoginRequest {
 	username: string;

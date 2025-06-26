@@ -1,5 +1,5 @@
-import { useLoginUIHook } from "./LoginUI.hook";
-import { LoginUIView } from "./LoginUI.view";
+import { useLoginUIHook } from './LoginUI.hook';
+import { LoginUIView } from './LoginUI.view';
 
 const LoginUI = () => {
 	const hookData = useLoginUIHook();

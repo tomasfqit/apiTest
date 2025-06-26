@@ -1,14 +1,24 @@
+import { ToastErrorForm } from "@/utils/ToastErrorForm";
 import { Button, Card, EInput, ESize, Input } from "@ITSA-Nucleo/itsa-fe-components";
+import { ApiKey } from "../../../../constants/ApiKey";
 import { getBackgroundImageByDay } from "../../../../helpers/functions";
-import { ToastErrorForm } from "../../../../utils/ToastErrorForm";
+import { useApiManagmentPost } from "../../../../hooks/useApiManagmentPost";
+import { ILoginRequest, ILoginResponse } from "../../../../interfaces/login";
 import { ILoginUIHookProps } from "./LoginUI.hook";
 
 export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, register, handleSubmit, errors, watch }) => {
+	const { post, loading } = useApiManagmentPost<ILoginResponse, ILoginRequest>(ApiKey.CHECK_SESSION);
+
+
 	const backgroundImage = getBackgroundImageByDay();
-	const onSubmit = () => {
-		console.log('variables =>', watch());
+	// const { post, isLoading } = useApisManagment();
+	const onSubmit = async () => {
+		const res = await post(watch());
+		console.log('res =>', res);
+
 	};
 
+	console.log('variables =>', loading);
 
 	return <div
 		className={`min-h-screen flex items-center justify-center relative bg-cover bg-center bg-no-repeat`}
