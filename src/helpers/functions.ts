@@ -12,3 +12,7 @@ export const getBackgroundImageByDay = (): string => {
 	};
 	return backgroundImages[dayOfWeek as keyof typeof backgroundImages] || '/fondo_login6.png';
 };
+
+export const errorMsgRequired = (field: string) => {
+	return `El campo ${field} es obligatorio`;
+};

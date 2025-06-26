@@ -1,41 +1,32 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Control, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { z } from 'zod';
+import { errorMsgRequired } from '../../../../helpers/functions';
+
 interface ILoginRequest {
 	username: string;
 	password: string;
 }
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-	Control,
-	FieldErrors,
-	useForm,
-	UseFormHandleSubmit,
-	UseFormRegister,
-	UseFormSetValue,
-	UseFormWatch,
-} from 'react-hook-form';
-import { z } from 'zod';
 
 const formSchema = z.object({
-	username: z.string().min(1, 'El nombre de usuario es requerido'),
-	password: z.string().min(1, 'La contraseña es requerida'),
+	username: z.string({ required_error: errorMsgRequired('usuario') }).min(1, errorMsgRequired('usuario')),
+	password: z.string({ required_error: errorMsgRequired('contraseña') }).min(1, errorMsgRequired('contraseña')),
 });
 
 export interface ILoginUIHookProps {
 	errors: FieldErrors;
 	register: UseFormRegister<ILoginRequest>;
 	handleSubmit: UseFormHandleSubmit<ILoginRequest>;
-	reset: () => void;
-	watch: UseFormWatch<ILoginRequest>;
-	setValue: UseFormSetValue<ILoginRequest>;
 	control: Control<ILoginRequest>;
+	watch: UseFormWatch<ILoginRequest>;
 }
+
 export const useLoginUIHook = (): ILoginUIHookProps => {
 	const {
 		register,
 		handleSubmit,
-		reset,
-		watch,
-		setValue,
 		control,
+		watch,
 		formState: { errors },
 	} = useForm<ILoginRequest>({
 		resolver: zodResolver(formSchema),
@@ -45,9 +36,7 @@ export const useLoginUIHook = (): ILoginUIHookProps => {
 		errors,
 		register,
 		handleSubmit,
-		reset,
-		watch,
-		setValue,
 		control,
+		watch,
 	};
 };
