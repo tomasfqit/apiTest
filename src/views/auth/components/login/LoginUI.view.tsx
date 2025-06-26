@@ -13,8 +13,8 @@ export const LoginUI: React.FC<ILoginUIHookProps> = ({ control }) => {
 		<div className="absolute inset-0 bg-black/50"></div>
 		<div className="relative z-10 flex justify-center items-center">
 			<Card elevation={ESize.large}>
-				<div className="flex flex-col gap-8 w-[360px] h-[420px] items-center">
-					<div className="flex justify-center items-center w-[250px]">
+				<div className="flex flex-col gap-8 w-[380px] h-[420px] items-center">
+					<div className="flex justify-center items-center w-[320px]">
 						<img
 							src="/logo-tomebamba-negro.png"
 							alt="Importadora Tomebamba Logo"

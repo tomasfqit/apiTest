@@ -1,7 +1,7 @@
-import { Alert, Button, EInput, Input, InputFile } from '@ITSA-Nucleo/itsa-fe-components';
+import { Alert, EInput, Input, InputFile } from '@ITSA-Nucleo/itsa-fe-components';
 import { IExampleUIHookProps } from './ExampleUI.hook';
 
-const ExampleUIView = ({ control, errors, onSubmit, handleSubmit, setValue }: IExampleUIHookProps) => {
+const ExampleUIView = ({ control, errors, setValue }: IExampleUIHookProps) => {
 	return (
 		<div className="space-y-4 p-20">
 			<Alert content="Random Text" />
@@ -15,7 +15,7 @@ const ExampleUIView = ({ control, errors, onSubmit, handleSubmit, setValue }: IE
 				rules={{ required: 'required' }}
 				error={errors.inputFile ? (errors.inputFile.message as string) : undefined}
 			/>
-			<Button text="calcular" onClick={handleSubmit(data => onSubmit(data))} />
+			{/* <Button text="calcular" onClick={handleSubmit(data => onSubmit(data))} /> */}
 		</div>
 	);
 };

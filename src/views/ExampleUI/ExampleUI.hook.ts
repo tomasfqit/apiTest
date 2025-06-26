@@ -1,6 +1,6 @@
 // @note: here goes all logic
 // Add here all functions, states and logic need it for this specific UI, including API calls and more.
-import { Control, FieldErrors, useForm, UseFormHandleSubmit, UseFormSetValue } from 'react-hook-form';
+import { Control, FieldErrors, useForm, UseFormSetValue } from 'react-hook-form';
 
 interface IFormData {
 	firstAmount: number;
@@ -12,14 +12,12 @@ export interface IExampleUIHookProps {
 	control: Control<IFormData>;
 	errors: FieldErrors;
 	onSubmit: (data: IFormData) => void;
-	handleSubmit: UseFormHandleSubmit<IFormData, undefined>;
 	setValue: UseFormSetValue<IFormData>;
 }
 
 export const useExampleUIHook = (): IExampleUIHookProps => {
 	const {
 		control,
-		handleSubmit,
 		setValue,
 		formState: { errors },
 	} = useForm<IFormData>({
@@ -34,5 +32,5 @@ export const useExampleUIHook = (): IExampleUIHookProps => {
 		console.log('DATA', data);
 	};
 
-	return { control, errors, onSubmit, handleSubmit, setValue };
+	return { control, errors, onSubmit, setValue };
 };
