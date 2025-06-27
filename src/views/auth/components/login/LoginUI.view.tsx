@@ -1,26 +1,17 @@
 import { getBackgroundImageByDay } from "@/helpers/functions";
-import { ICheckSessionResult } from "@/interfaces/login";
-import { useCheckSessionsStore } from "@/store/auth/useCheckSessionsStore";
 import { ToastErrorForm } from "@/utils/ToastErrorForm";
 import { Button, Card, EInput, ESize, Input } from "@ITSA-Nucleo/itsa-fe-components";
+import { ILoginRequest } from "../../../../interfaces/login";
 import { ILoginUIHookProps } from "./LoginUI.hook";
 
-export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, register, handleSubmit, errors, watch }) => {
-	const { fetchFunction, isLoading } = useCheckSessionsStore();
+interface ILoginUIViewProps extends ILoginUIHookProps {
+	onSubmit: (data: ILoginRequest) => void;
+	isLoading: boolean;
+}
+
+export const LoginUIView: React.FC<ILoginUIViewProps> = ({ control, register, handleSubmit, errors, onSubmit, isLoading }) => {
+
 	const backgroundImage = getBackgroundImageByDay();
-
-
-	const onSubmit = () => {
-		const data = watch();
-		fetchFunction(data, {
-			onSuccess: (data: ICheckSessionResult[]) => {
-				console.log("onSuccess", data);
-			},
-			onError: (error: string) => {
-				console.log("onError", error);
-			}
-		})
-	};
 
 	return <div
 		className={`min-h-screen flex items-center justify-center relative bg-cover bg-center bg-no-repeat`}

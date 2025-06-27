@@ -1,12 +1,8 @@
 import { errorMsgRequired } from '@/helpers/functions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Control, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { Control, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
 import { z } from 'zod';
-
-interface ILoginRequest {
-	username: string;
-	password: string;
-}
+import { ILoginRequest } from '../../../../interfaces/login';
 
 const formSchema = z.object({
 	username: z.string({ required_error: errorMsgRequired('usuario') }).min(1, errorMsgRequired('usuario')),
@@ -18,7 +14,6 @@ export interface ILoginUIHookProps {
 	register: UseFormRegister<ILoginRequest>;
 	handleSubmit: UseFormHandleSubmit<ILoginRequest>;
 	control: Control<ILoginRequest>;
-	watch: UseFormWatch<ILoginRequest>;
 }
 
 export const useLoginUIHook = (): ILoginUIHookProps => {
@@ -26,7 +21,6 @@ export const useLoginUIHook = (): ILoginUIHookProps => {
 		register,
 		handleSubmit,
 		control,
-		watch,
 		formState: { errors },
 	} = useForm<ILoginRequest>({
 		resolver: zodResolver(formSchema),
@@ -37,6 +31,5 @@ export const useLoginUIHook = (): ILoginUIHookProps => {
 		register,
 		handleSubmit,
 		control,
-		watch,
 	};
 };
