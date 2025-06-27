@@ -1,3 +1,4 @@
+import { Modal } from '@ITSA-Nucleo/itsa-fe-components';
 import '@ITSA-Nucleo/itsa-fe-components/styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -10,6 +11,7 @@ createRoot(document.getElementById('root')!).render(
 	<StrictMode>
 		<AppProvider>
 			<App />
+			<Modal />
 			<Toaster
 				position="top-right"
 				className='hover:cursor-pointer'

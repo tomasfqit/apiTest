@@ -19,6 +19,7 @@
 		"sonner": "^2.0.5",
 		"tailwind": "^4.0.0",
 		"tailwindcss": "^4.0.3",
+		"ua-parser-js": "^2.0.4",
 		"zod": "^3.25.67",
 		"zustand": "^5.0.6"
 	},

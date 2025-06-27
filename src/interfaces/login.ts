@@ -26,3 +26,8 @@ export interface ICloseSessionRequest {
 	username: string;
 	session: number;
 }
+export interface IResponseGeneric {
+	code: number;
+	message: string;
+	result: string;
+}
