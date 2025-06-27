@@ -1,5 +1,5 @@
 import { useModalStore } from "@ITSA-Nucleo/itsa-fe-components";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { UAParser } from "ua-parser-js";
 import { ICheckSessionResult, ICloseSessionRequest } from "../../../../interfaces/login";
 import { useCloseSessions } from "../../../../store/auth/useCloseSessions";
@@ -11,6 +11,7 @@ interface PropsListActiveSessionsUI {
 }
 
 export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ activeSessions, username }) => {
+	const [sessions, setSessions] = useState<ICheckSessionResult[]>(activeSessions);
 	const { fetchFunction: closeSession, isLoading: isLoadingCloseSession } = useCloseSessions();
 	const { closeModal } = useModalStore();
 	const parser = useCallback((res: string) => {
@@ -35,14 +36,16 @@ export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ acti
 		}
 		closeSession(dataRequest, {
 			onSuccess: () => {
-				closeModal();
+				const newSessions = sessions.filter(s => s.id !== session.id);
+				setSessions(newSessions);
 			}
 		})
-	}, []);
+	}, [closeSession, sessions, username]);
 
 	const handleContinue = useCallback(() => {
 
 	}, []);
 
-	return <ListActiveSessionsUIView activeSessions={activeSessions} parser={parser} handleContinue={handleContinue} closeModal={closeModal} isLoading={isLoadingCloseSession} handleCloseSession={handleCloseSession} />
+
+	return <ListActiveSessionsUIView activeSessions={sessions} parser={parser} handleContinue={handleContinue} closeModal={closeModal} isLoading={isLoadingCloseSession} handleCloseSession={handleCloseSession} />
 }

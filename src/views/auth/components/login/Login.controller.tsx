@@ -22,7 +22,7 @@ const LoginUIController = () => {
 			null,
 			closeModal
 		);
-	}, []);
+	}, [closeModal, openModal]);
 
 
 	const onSubmit = useCallback((dataForm: ILoginRequest) => {
@@ -45,7 +45,7 @@ const LoginUIController = () => {
 				console.log("onError", error);
 			}
 		})
-	}, [checkSessions, login]);
+	}, [checkSessions, login, openModalActiveSessions]);
 
 	return <LoginUIView {...hookData} onSubmit={onSubmit} isLoading={isLoadingCheckSessions || isLoadingLogin} />;
 };
