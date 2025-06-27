@@ -1,18 +1,21 @@
+import { ICheckSessionResult, ICloseSessionRequest } from "@/interfaces/login";
+import { useCloseSessions } from "@/store/auth/useCloseSessions";
+import { useLoginStore } from "@/store/auth/useLoginStore";
 import { useModalStore } from "@ITSA-Nucleo/itsa-fe-components";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { UAParser } from "ua-parser-js";
-import { ICheckSessionResult, ICloseSessionRequest } from "../../../../interfaces/login";
-import { useCloseSessions } from "../../../../store/auth/useCloseSessions";
 import { ListActiveSessionsUIView } from "./ListActiveSessionsUI.view";
 
 interface PropsListActiveSessionsUI {
 	activeSessions: ICheckSessionResult[];
 	username: string;
+	password: string;
 }
 
-export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ activeSessions, username }) => {
+export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ activeSessions, username, password }) => {
 	const [sessions, setSessions] = useState<ICheckSessionResult[]>(activeSessions);
-	const { fetchFunction: closeSession, isLoading: isLoadingCloseSession } = useCloseSessions();
+	const { closeSession, isLoading: isLoadingCloseSession } = useCloseSessions();
+	const { login, isLoading: isLoadingLogin } = useLoginStore();
 	const { closeModal } = useModalStore();
 	const parser = useCallback((res: string) => {
 		const parser = new UAParser(res);
@@ -40,12 +43,21 @@ export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ acti
 				setSessions(newSessions);
 			}
 		})
-	}, [closeSession, sessions, username]);
+	}, [closeSession, username, sessions]);
 
 	const handleContinue = useCallback(() => {
+		login({ username, password }, {
+			onSuccess: () => {
+				closeModal();
+			}
+		});
+	}, [closeModal, login, username, password]);
 
-	}, []);
+	const disableContinue = useMemo(() => {
+		if (sessions.length === activeSessions.length) return true;
+		if (isLoadingCloseSession || isLoadingLogin) return true;
+		return false;
+	}, [activeSessions.length, isLoadingCloseSession, isLoadingLogin, sessions.length]);
 
-
-	return <ListActiveSessionsUIView activeSessions={sessions} parser={parser} handleContinue={handleContinue} closeModal={closeModal} isLoading={isLoadingCloseSession} handleCloseSession={handleCloseSession} />
+	return <ListActiveSessionsUIView activeSessions={sessions} parser={parser} handleContinue={handleContinue} closeModal={closeModal} handleCloseSession={handleCloseSession} disableContinue={disableContinue} />
 }

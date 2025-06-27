@@ -12,12 +12,12 @@ interface FunctionProps {
 interface IState {
 	isLoading: boolean;
 	data?: string;
-	fetchFunction: (data: ILoginRequest, { onSuccess, onError }: FunctionProps) => void;
+	login: (data: ILoginRequest, { onSuccess, onError }: FunctionProps) => void;
 }
 
 export const useLoginStore = create<IState>(set => ({
 	isLoading: false,
-	fetchFunction: async (request: ILoginRequest, { onSuccess, onError }: FunctionProps) => {
+	login: async (request: ILoginRequest, { onSuccess, onError }: FunctionProps) => {
 		set({ isLoading: true });
 		await safeAxiosCall<IState, AxiosResponse<ILoginResponse>>(
 			() => postConfig('/security/login/', request),
@@ -28,6 +28,7 @@ export const useLoginStore = create<IState>(set => ({
 			},
 			err => {
 				const error = err as AxiosErrorType;
+				console.log('erroaaaaaaaar', error);
 				onError?.(error.message);
 			},
 			set,

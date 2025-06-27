@@ -12,12 +12,12 @@ interface FunctionProps {
 interface IState {
 	isLoading: boolean;
 	data?: IResponseGeneric;
-	fetchFunction: (data: ICloseSessionRequest, { onSuccess, onError }: FunctionProps) => void;
+	closeSession: (data: ICloseSessionRequest, { onSuccess, onError }: FunctionProps) => void;
 }
 
 export const useCloseSessions = create<IState>(set => ({
 	isLoading: false,
-	fetchFunction: async (request: ICloseSessionRequest, { onSuccess, onError }: FunctionProps) => {
+	closeSession: async (request: ICloseSessionRequest, { onSuccess, onError }: FunctionProps) => {
 		set({ isLoading: true });
 		await safeAxiosCall<IState, AxiosResponse<IResponseGeneric>>(
 			() => postConfig('/security/closeSession/', request),

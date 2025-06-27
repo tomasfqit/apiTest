@@ -8,12 +8,12 @@ interface IListActiveSessionsProps {
 	parser: (res: string) => string;
 	handleContinue: () => void;
 	closeModal: () => void;
-	isLoading: boolean;
 	handleCloseSession: (session: ICheckSessionResult) => void;
+	disableContinue: boolean;
 }
 
 
-export const ListActiveSessionsUIView: React.FC<IListActiveSessionsProps> = ({ activeSessions, parser, handleContinue, closeModal, isLoading, handleCloseSession }) => {
+export const ListActiveSessionsUIView: React.FC<IListActiveSessionsProps> = ({ activeSessions, parser, handleContinue, closeModal, handleCloseSession, disableContinue }) => {
 
 
 	return <div className="flex flex-col gap-4 w-full">
@@ -44,8 +44,8 @@ export const ListActiveSessionsUIView: React.FC<IListActiveSessionsProps> = ({ a
 			</div>
 		))}
 		<div className="flex justify-end gap-2">
-			<Button text="Cancelar" variant="outlined" onClick={closeModal} isDisabled={isLoading} />
-			<Button text="Continuar" variant="contained" onClick={handleContinue} isDisabled={isLoading} />
+			<Button text="Cancelar" variant="outlined" onClick={closeModal} />
+			<Button text="Continuar" variant="contained" onClick={handleContinue} isDisabled={disableContinue} />
 		</div>
 	</div>;
 };

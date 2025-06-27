@@ -4,20 +4,20 @@ import { ICheckSessionResponse, ICheckSessionResult, ILoginRequest } from '@/int
 import { AxiosResponse } from 'axios';
 import { create } from 'zustand';
 import { AxiosErrorType } from '../../interfaces/Common';
+import { TOAST_ERROR } from '../../utils/toast';
 
 interface FunctionProps {
 	onSuccess: (data: ICheckSessionResult[]) => void;
-	onError?: (error: string) => void;
 }
 interface IState {
 	isLoading: boolean;
 	data?: ICheckSessionResult[];
-	fetchFunction: (data: ILoginRequest, { onSuccess, onError }: FunctionProps) => void;
+	checkSession: (data: ILoginRequest, { onSuccess }: FunctionProps) => void;
 }
 
 export const useCheckSessionsStore = create<IState>(set => ({
 	isLoading: false,
-	fetchFunction: async (request: ILoginRequest, { onSuccess, onError }: FunctionProps) => {
+	checkSession: async (request: ILoginRequest, { onSuccess }: FunctionProps) => {
 		set({ isLoading: true });
 		await safeAxiosCall<IState, AxiosResponse<ICheckSessionResponse>>(
 			() => postConfig('/security/checkSession/', request),
@@ -28,7 +28,8 @@ export const useCheckSessionsStore = create<IState>(set => ({
 			},
 			err => {
 				const error = err as AxiosErrorType;
-				onError?.(error.message);
+				const msg = error.response?.data.message || '';
+				TOAST_ERROR(msg);
 			},
 			set,
 		);
