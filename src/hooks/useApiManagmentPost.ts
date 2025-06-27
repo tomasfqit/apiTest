@@ -1,4 +1,3 @@
-// hooks/useApi.ts
 import { AxiosRequestConfig } from 'axios';
 import { useState } from 'react';
 import { post as postAxios } from '../api/config';
