@@ -1,8 +1,8 @@
 import { getBackgroundImageByDay } from "@/helpers/functions";
+import { ICheckSessionResult } from "@/interfaces/login";
 import { useCheckSessionsStore } from "@/store/auth/useCheckSessionsStore";
 import { ToastErrorForm } from "@/utils/ToastErrorForm";
 import { Button, Card, EInput, ESize, Input } from "@ITSA-Nucleo/itsa-fe-components";
-import { ILoginResponse } from "../../../../interfaces/login";
 import { ILoginUIHookProps } from "./LoginUI.hook";
 
 export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, register, handleSubmit, errors, watch }) => {
@@ -13,7 +13,7 @@ export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, register, ha
 	const onSubmit = () => {
 		const data = watch();
 		fetchFunction(data, {
-			onSuccess: (data: ILoginResponse) => {
+			onSuccess: (data: ICheckSessionResult[]) => {
 				console.log("onSuccess", data);
 			},
 			onError: (error: string) => {
