@@ -1,24 +1,26 @@
+import { getBackgroundImageByDay } from "@/helpers/functions";
+import { useCheckSessionsStore } from "@/store/auth/useCheckSessionsStore";
 import { ToastErrorForm } from "@/utils/ToastErrorForm";
 import { Button, Card, EInput, ESize, Input } from "@ITSA-Nucleo/itsa-fe-components";
-import { ApiKey } from "../../../../constants/ApiKey";
-import { getBackgroundImageByDay } from "../../../../helpers/functions";
-import { useApiManagmentPost } from "../../../../hooks/useApiManagmentPost";
-import { ILoginRequest, ILoginResponse } from "../../../../interfaces/login";
+import { ILoginResponse } from "../../../../interfaces/login";
 import { ILoginUIHookProps } from "./LoginUI.hook";
 
 export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, register, handleSubmit, errors, watch }) => {
-	const { post, loading } = useApiManagmentPost<ILoginResponse, ILoginRequest>(ApiKey.CHECK_SESSION);
-
-
+	const { fetchFunction, isLoading } = useCheckSessionsStore();
 	const backgroundImage = getBackgroundImageByDay();
-	// const { post, isLoading } = useApisManagment();
-	const onSubmit = async () => {
-		const res = await post(watch());
-		console.log('res =>', res);
 
+
+	const onSubmit = () => {
+		const data = watch();
+		fetchFunction(data, {
+			onSuccess: (data: ILoginResponse) => {
+				console.log("onSuccess", data);
+			},
+			onError: (error: string) => {
+				console.log("onError", error);
+			}
+		})
 	};
-
-	console.log('variables =>', loading);
 
 	return <div
 		className={`min-h-screen flex items-center justify-center relative bg-cover bg-center bg-no-repeat`}
@@ -43,7 +45,7 @@ export const LoginUIView: React.FC<ILoginUIHookProps> = ({ control, register, ha
 						<Input type={EInput.password} label="Contraseña" control={control} {...register("password")} error={errors?.password?.message as string} />
 
 						<div className="flex gap-2 w-full justify-center">
-							<Button text="Iniciar sesión" type="submit" />
+							<Button text="Iniciar sesión" type="submit" isLoading={isLoading} />
 						</div>
 					</div>
 				</form>
