@@ -10,10 +10,10 @@ export const PermissionRoute = ({
 }: {
 	children: React.ReactNode;
 }) => {
-	const { validateToken } = useValidateToken();
+	const { validateRoute, progId, agenId } = useValidateRoute();
 	const [allowed, setAllowed] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const { validateRoute, progId, agenId } = useValidateRoute();
+	const { validateToken } = useValidateToken();
 	const navigate = useNavigate();
 
 	useEffect(() => {

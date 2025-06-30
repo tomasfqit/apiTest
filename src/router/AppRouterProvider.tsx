@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AuthLayout } from "../components/layout/AuthLayout";
+import { AuthLayout } from "../views/AuthLayout/AuthLayout";
 import { NotFoundUI } from "../views/auth/components/notfound/NotFoundUI.view";
 import { PublicRoute } from "./PublicRoute";
 import { routes } from "./routes";

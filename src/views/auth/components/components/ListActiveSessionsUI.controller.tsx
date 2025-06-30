@@ -1,9 +1,11 @@
-import { ICheckSessionResult, ICloseSessionRequest } from "@/interfaces/login";
+import { ICheckSessionResult, ICloseSessionRequest, IExchangeCodeResult } from "@/interfaces/login";
 import { useCloseSessions } from "@/store/auth/useCloseSessions";
 import { useLoginStore } from "@/store/auth/useLoginStore";
 import { useModalStore } from "@ITSA-Nucleo/itsa-fe-components";
 import { useCallback, useMemo, useState } from "react";
 import { UAParser } from "ua-parser-js";
+import { useExchangeCodeStore } from "../../../../store/auth/useExchangeCode";
+import { useValidateToken } from "../../../../store/auth/useValidateToken";
 import { ListActiveSessionsUIView } from "./ListActiveSessionsUI.view";
 
 interface PropsListActiveSessionsUI {
@@ -15,6 +17,9 @@ interface PropsListActiveSessionsUI {
 export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ activeSessions, username, password }) => {
 	const [sessions, setSessions] = useState<ICheckSessionResult[]>(activeSessions);
 	const { closeSession, isLoading: isLoadingCloseSession } = useCloseSessions();
+	const { exchangeCode } = useExchangeCodeStore();
+	const { setToken } = useValidateToken();
+	//const navigate = useNavigate();
 	const { login, isLoading: isLoadingLogin } = useLoginStore();
 	const { closeModal } = useModalStore();
 	const parser = useCallback((res: string) => {
@@ -47,11 +52,16 @@ export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ acti
 
 	const handleContinue = useCallback(() => {
 		login({ username, password }, {
-			onSuccess: () => {
-				closeModal();
+			onSuccess: (data: string) => {
+				exchangeCode({ claim_code: data }, {
+					onSuccess: (data: IExchangeCodeResult) => {
+						setToken(data);
+						window.location.reload();
+					}
+				})
 			}
 		});
-	}, [closeModal, login, username, password]);
+	}, [exchangeCode, login, password, setToken, username]);
 
 	const disableContinue = useMemo(() => {
 		if (sessions.length === activeSessions.length) return true;

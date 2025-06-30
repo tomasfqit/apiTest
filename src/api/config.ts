@@ -8,10 +8,10 @@ const server = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 // Función para obtener el token desde localStorage
 const getToken = () => {
-	const userToken = localStorage.getItem('userToken') || '';
+	const userToken = localStorage.getItem('token') || '';
 	let token = null;
 	if (userToken) {
-		token = JSON.parse(userToken).accessToken;
+		token = JSON.parse(userToken).access;
 	}
 	return token;
 };

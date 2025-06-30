@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useValidateToken } from "../../store/auth/useValidateToken";
-import { MainLayout } from "./MainLayout";
+import MainLayoutUI from "../MainLayout/MainLayoutUI.Controller";
 
 export const AuthLayout = () => {
 	const { validateToken } = useValidateToken();
@@ -8,5 +8,5 @@ export const AuthLayout = () => {
 		return <Navigate to="/login" replace />;
 	}
 
-	return <MainLayout />;
+	return <MainLayoutUI />;
 }; 

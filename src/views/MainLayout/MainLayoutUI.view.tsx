@@ -1,36 +1,21 @@
 "use client";
 import { AppLayout } from "@ITSA-Nucleo/itsa-fe-components";
 import { Outlet } from "react-router-dom";
+import { IMainLayoutUI } from "./MainLayoutUI.hook";
 
-export const MainLayout = () => {
+export const MainLayoutUIView: React.FC<IMainLayoutUI> = ({ agencies, currentAgency, currentModules }) => {
+	console.log('currentModules =>', currentModules);
 	return <div className="h-[100vh] w-[100vw]">
 		<AppLayout
-			agencies={[
-				{
-					action: () => { },
-					title: 'Cuenca'
-				},
-				{
-					action: () => { },
-					title: 'Quito'
-				},
-				{
-					action: () => { },
-					title: 'Guayaquil'
-				},
-				{
-					action: () => { },
-					title: 'Loja'
-				}
-			]}
+			agencies={agencies}
 			avatar={{
 				name: 'John Doe'
 			}}
 			currentPath="/sub-route-1"
 			headerTitles={
 				{
-					agency: 'ITSA',
-					module: 'Seguridad',
+					agency: currentAgency?.nombre || '',
+					module: currentModules[0]?.title as string,
 				}
 			}
 			notifications={[
@@ -151,7 +136,7 @@ export const MainLayout = () => {
 					title: 'Option 4'
 				}
 			]}
-			lines={[]}
+			lines={currentModules}
 		>
 			<Outlet />
 		</AppLayout>
