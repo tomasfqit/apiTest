@@ -31,3 +31,18 @@ export interface IResponseGeneric {
 	message: string;
 	result: string;
 }
+
+export interface IExchangeCodeRequest {
+	claim_code: string;
+}
+
+export interface IExchangeCodeResponse {
+	code: number;
+	message: string;
+	result: IExchangeCodeResult;
+}
+
+export interface IExchangeCodeResult {
+	refresh: string;
+	access: string;
+}

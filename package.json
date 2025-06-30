@@ -13,6 +13,7 @@
 		"@hookform/resolvers": "^5.1.1",
 		"@ITSA-Nucleo/itsa-fe-components": "0.0.22-staging",
 		"@tailwindcss/vite": "^4.0.12",
+		"jwt-decode": "^4.0.0",
 		"react": "19",
 		"react-dom": "19",
 		"react-hook-form": "^7.54.2",

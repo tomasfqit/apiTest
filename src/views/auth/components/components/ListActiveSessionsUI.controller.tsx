@@ -42,7 +42,7 @@ export const ListActiveSessionsUI: React.FC<PropsListActiveSessionsUI> = ({ acti
 				const newSessions = sessions.filter(s => s.id !== session.id);
 				setSessions(newSessions);
 			}
-		})
+		});
 	}, [closeSession, username, sessions]);
 
 	const handleContinue = useCallback(() => {
