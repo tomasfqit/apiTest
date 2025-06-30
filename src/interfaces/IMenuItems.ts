@@ -10,20 +10,20 @@ export interface IAgenciesAccess {
 
 export interface IAgencyModules {
 	id: number;
-	nombre: string;
+	name: string;
 	modules: IModules[];
 }
 
 export interface IModules {
 	id: number;
-	nombre: string;
+	name: string;
 	path: string;
 	submodules: ISubModules[];
 }
 
 export interface ISubModules {
 	id: number;
-	nombre: string;
+	name: string;
 	path: string;
 	groups?: IGroups[];
 	programs: IProgram[];
@@ -31,14 +31,14 @@ export interface ISubModules {
 
 export interface IProgram {
 	id: number;
-	nombre: string;
+	name: string;
 	path: string;
 	actions: IActions;
 }
 
 export interface IGroups {
 	id: number;
-	nombre: string;
+	name: string;
 	path: string;
 	programs: IProgram[];
 }
@@ -77,6 +77,6 @@ export interface IMainJoinSubModulesGroups1 {
 
 export interface IMainJoinSubModulesGroups {
 	id: number;
-	nombre: string;
+	name: string;
 	programs: IProgram[];
 }

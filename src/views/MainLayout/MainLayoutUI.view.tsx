@@ -14,7 +14,7 @@ export const MainLayoutUIView: React.FC<IMainLayoutUI> = ({ agencies, currentAge
 			currentPath="/sub-route-1"
 			headerTitles={
 				{
-					agency: currentAgency?.nombre || '',
+					agency: currentAgency?.name || '',
 					module: currentModule?.title as string,
 				}
 			}

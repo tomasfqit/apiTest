@@ -22,7 +22,7 @@ export const useMainLayoutHook = (): IMainLayoutUI => {
 	const getAgencies = useCallback((agencies: IAgencyModules[]) => {
 		return agencies.map(agency => {
 			return {
-				title: agency.nombre || '',
+				title: agency.name || '',
 				action: () => {},
 			};
 		});
@@ -31,7 +31,7 @@ export const useMainLayoutHook = (): IMainLayoutUI => {
 	const getModules = useCallback((modules: IModules[]) => {
 		return modules.map(module => {
 			return {
-				title: module.nombre || '',
+				title: module.name || '',
 				action: () => {},
 			};
 		});
@@ -40,7 +40,7 @@ export const useMainLayoutHook = (): IMainLayoutUI => {
 	const getCurrentModule = useCallback((modules: IModules[]): IActionPanelOption | null => {
 		if (modules.length > 0) {
 			return {
-				title: modules[0].nombre || '',
+				title: modules[0].name || '',
 				action: () => {},
 			};
 		} else {
@@ -56,7 +56,7 @@ export const useMainLayoutHook = (): IMainLayoutUI => {
 					setCurrentAgency(data.agencias[0]);
 					setCurrentModules(
 						data.agencias[0].modules.map(module => ({
-							title: module.nombre || '',
+							title: module.name || '',
 							action: () => {},
 						})),
 					);
