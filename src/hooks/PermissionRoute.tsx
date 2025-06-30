@@ -2,7 +2,8 @@
 import ModalLoading from "@/components/layout/ModalLoading";
 import { useValidateToken } from "@/store/auth/useValidateToken";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useValidateRoute } from "../store/auth/useValidateRoute";
 
 export const PermissionRoute = ({
 	children,
@@ -12,15 +13,23 @@ export const PermissionRoute = ({
 	const { validateToken } = useValidateToken();
 	const [allowed, setAllowed] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const { validateRoute, progId, agenId } = useValidateRoute();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (validateToken) {
-			setAllowed(true);
-			setTimeout(() => {
-				setIsLoading(false);
-			}, 1000);
+			validateRoute({ progId: progId, agenId: agenId }, {
+				onSuccess: (data) => {
+					setAllowed(data);
+					setIsLoading(false);
+				},
+				onError: () => {
+					navigate('/unauthorized');
+					setIsLoading(false);
+				}
+			});
 		}
-	}, [validateToken]);
+	}, [agenId, navigate, progId, validateRoute, validateToken]);
 
 
 	// Mostrar loading mientras se cargan los datos

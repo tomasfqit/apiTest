@@ -46,3 +46,14 @@ export interface IExchangeCodeResult {
 	refresh: string;
 	access: string;
 }
+
+export interface IValidateRouteRequest {
+	progId: number;
+	agenId: number;
+}
+
+export interface IValidateRouteResponse {
+	code: number;
+	message: string;
+	result: boolean;
+}
