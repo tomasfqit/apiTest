@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import { useCallback, useMemo } from 'react';
-import { IExchangeCodeResult } from '../interfaces/login';
+import { IExchangeCodeResult } from '../../interfaces/login';
 
 interface JwtPayload {
 	exp: number;

@@ -1,6 +1,6 @@
 // src/components/PrivateRoute.tsx
 import { Navigate, Outlet } from "react-router-dom";
-import { useValidateToken } from "../hooks/useValidateToken";
+import { useValidateToken } from "../store/auth/useValidateToken";
 
 
 export const PrivateRoute = () => {

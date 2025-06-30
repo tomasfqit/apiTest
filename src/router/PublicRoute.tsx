@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useValidateToken } from "../hooks/useValidateToken";
+import { useValidateToken } from "../store/auth/useValidateToken";
 import AuthUI from "../views/auth/AuhUI.view";
 
 export const PublicRoute = () => {

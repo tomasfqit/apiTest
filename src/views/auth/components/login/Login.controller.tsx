@@ -1,8 +1,8 @@
 "use client";
-import { useValidateToken } from '@/hooks/useValidateToken';
 import { ICheckSessionResult, IExchangeCodeResult, ILoginRequest } from '@/interfaces/login';
 import { useCheckSessionsStore } from '@/store/auth/useCheckSessionsStore';
 import { useLoginStore } from '@/store/auth/useLoginStore';
+import { useValidateToken } from '@/store/auth/useValidateToken';
 import { TOAST_ERROR } from '@/utils/toast';
 import { useModalStore } from '@ITSA-Nucleo/itsa-fe-components';
 import { useCallback } from 'react';

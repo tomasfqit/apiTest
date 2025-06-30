@@ -1,7 +1,7 @@
 import { Navigate, type RouteObject } from "react-router-dom";
 import HomeUI from "../views/home/components/HomeUI.view";
 import SecurityUI from "../views/security/SecurityUI.controller";
-import ModulesUI from "../views/security/components/modules/ModulesUI.controller";
+import { securityRoutes } from "../views/security/SecurityUI.routes";
 
 
 
@@ -17,12 +17,7 @@ export const routes: RouteObject[] = [
 	{
 		path: "security",
 		element: <SecurityUI />,
-		children: [
-			{
-				path: "modules",
-				element: <ModulesUI />,
-			},
-		],
+		children: securityRoutes,
 	},
 ];
 
