@@ -3,8 +3,8 @@ import { AppLayout } from "@ITSA-Nucleo/itsa-fe-components";
 import { Outlet } from "react-router-dom";
 import { IMainLayoutUI } from "./MainLayoutUI.hook";
 
-export const MainLayoutUIView: React.FC<IMainLayoutUI> = ({ agencies, currentAgency, currentModules }) => {
-	console.log('currentModules =>', currentModules);
+export const MainLayoutUIView: React.FC<IMainLayoutUI> = ({ agencies, currentAgency, currentModule, currentModules, isLoading }) => {
+
 	return <div className="h-[100vh] w-[100vw]">
 		<AppLayout
 			agencies={agencies}
@@ -15,7 +15,7 @@ export const MainLayoutUIView: React.FC<IMainLayoutUI> = ({ agencies, currentAge
 			headerTitles={
 				{
 					agency: currentAgency?.nombre || '',
-					module: currentModules[0]?.title as string,
+					module: currentModule?.title as string,
 				}
 			}
 			notifications={[
@@ -137,6 +137,7 @@ export const MainLayoutUIView: React.FC<IMainLayoutUI> = ({ agencies, currentAge
 				}
 			]}
 			lines={currentModules}
+			isLoading={isLoading}
 		>
 			<Outlet />
 		</AppLayout>

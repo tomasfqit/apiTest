@@ -23,3 +23,4 @@ const router = createBrowserRouter([
 export const AppRouterProvider = () => {
 	return <RouterProvider router={router} />;
 };
+
