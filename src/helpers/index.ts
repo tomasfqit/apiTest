@@ -1,3 +1,6 @@
+import { mdiSecurity, mdiViewModule } from '@mdi/js';
+import { paths } from '../router/paths';
+
 export const getBackgroundImageByDay = (): string => {
 	const today = new Date();
 	const dayOfWeek = today.getDay();
@@ -15,4 +18,24 @@ export const getBackgroundImageByDay = (): string => {
 
 export const errorMsgRequired = (field: string) => {
 	return `El campo ${field} es obligatorio`;
+};
+
+export const getMenuOptions = () => {
+	const ALL_MODULES = [
+		{
+			name: 'SECURITY',
+			icon: mdiSecurity,
+			title: 'Seguridad',
+			subList: [
+				{
+					name: 'MODELS',
+					icon: mdiViewModule,
+					title: 'Modulos',
+					route: paths.securityModels,
+				},
+			],
+		},
+	];
+
+	return ALL_MODULES;
 };

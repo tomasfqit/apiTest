@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { LOCAL_STORAGE_NAMES } from '../context';
 
 type SettingsState = {
 	currentAgencyId: number | null;
@@ -13,20 +14,20 @@ type SettingsState = {
 export const useSettingsStore = create<SettingsState>()(
 	devtools(set => ({
 		setCurrentAgencyId: (agencyId: number) => {
-			localStorage.setItem('currentAgencyId', agencyId.toString());
+			localStorage.setItem(LOCAL_STORAGE_NAMES.agency, agencyId.toString());
 			set({ currentAgencyId: agencyId });
 		},
 		setCurrentModuleId: (moduleId: number) => {
-			localStorage.setItem('currentModuleId', moduleId.toString());
+			localStorage.setItem(LOCAL_STORAGE_NAMES.module, moduleId.toString());
 			set({ currentModuleId: moduleId });
 		},
 		getCurrentAgencyId: () => {
-			const currentAgencyId = localStorage.getItem('currentAgencyId');
+			const currentAgencyId = localStorage.getItem(LOCAL_STORAGE_NAMES.agency);
 			if (!currentAgencyId) return null;
 			return parseInt(currentAgencyId, 10);
 		},
 		getCurrentModuleId: () => {
-			const currentModuleId = localStorage.getItem('currentModuleId');
+			const currentModuleId = localStorage.getItem(LOCAL_STORAGE_NAMES.module);
 			if (!currentModuleId) return null;
 			return parseInt(currentModuleId, 10);
 		},

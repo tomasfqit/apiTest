@@ -1,6 +1,6 @@
-import { IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
-import { mdiAccountGroup } from "@mdi/js";
+import { IActionPanelOption } from "@ITSA-Nucleo/itsa-fe-components";
 import { useMemo } from "react";
+import { getMenuOptions } from "../../helpers";
 import { useSettingsStore } from "../../store/settings.store";
 import { useMainLayoutHook } from "./MainLayoutUI.hook";
 import { MainLayoutUIView } from "./MainLayoutUI.view";
@@ -14,7 +14,6 @@ const MainLayoutUI = () => {
 		currentModules,
 		currentModule,
 		setCurrentModule,
-		currentSubModules,
 		setCurrentSubModules
 	} = useMainLayoutHook();
 
@@ -47,16 +46,9 @@ const MainLayoutUI = () => {
 		}));
 	}, [currentModules, setCurrentModule, setCurrentSubModules, setCurrentAgencyId, setCurrentModuleId, currentAgency]);
 
-	const currentSubModulesAppLayout: IAppLayoutMenu[] = useMemo(() => {
-		return currentSubModules.map(subModule => ({
-			title: subModule.name,
-			icon: mdiAccountGroup,
-			action: () => {
-				console.log(`Clicked submodule: ${subModule.name}`);
-				// TODO: implementar navegación u otra lógica
-			}
-		}));
-	}, [currentSubModules]);
+	const menuOptions = useMemo(() => {
+		return getMenuOptions();
+	}, []);
 
 	return (
 		<MainLayoutUIView
@@ -65,7 +57,7 @@ const MainLayoutUI = () => {
 			currentAgency={currentAgency}
 			lines={currentModulosAppLayout}
 			currentModule={currentModule}
-			options={currentSubModulesAppLayout}
+			options={menuOptions}
 		/>
 	);
 };

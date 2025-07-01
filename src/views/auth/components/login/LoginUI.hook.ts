@@ -1,4 +1,4 @@
-import { errorMsgRequired, getBackgroundImageByDay } from '@/helpers/functions';
+import { errorMsgRequired, getBackgroundImageByDay } from '@/helpers';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback } from 'react';
 import { Control, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
