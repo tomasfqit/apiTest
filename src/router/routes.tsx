@@ -1,21 +1,27 @@
 import { Navigate, type RouteObject } from "react-router-dom";
 import HomeUI from "../views/home/components/HomeUI.view";
 import SecurityUI from "../views/security/SecurityUI.controller";
-import { securityRoutes } from "../views/security/SecurityUI.routes";
+import ModulesUI from "../views/security/components/modules/ModulesUI.controller";
+import { paths } from "./paths";
 
-
+export const securityRoutes: RouteObject[] = [
+	{
+		path: paths.securityModels,
+		element: <ModulesUI />,
+	},
+];
 
 export const routes: RouteObject[] = [
 	{
 		index: true,
-		element: <Navigate to="/home" replace />,
+		element: <Navigate to={paths.home} replace />,
 	},
 	{
-		path: "home",
+		path: paths.home,
 		element: <HomeUI />,
 	},
 	{
-		path: "security",
+		path: paths.security,
 		element: <SecurityUI />,
 		children: securityRoutes,
 	},

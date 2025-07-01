@@ -17,6 +17,7 @@ export interface IMainLayoutUI {
 
 export const useMainLayoutHook = (): IMainLayoutUI => {
 	const { getPermissions, data, isLoading } = useGetPermissions();
+	console.log('data =>', data);
 	const { getCurrentAgencyId, getCurrentModuleId, setCurrentAgencyId, setCurrentModuleId } = useSettingsStore();
 	const [currentAgency, setCurrentAgency] = useState<IAgencyModules | null>(null);
 	const [currentModule, setCurrentModule] = useState<IModules | null>(null);

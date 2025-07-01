@@ -26,10 +26,10 @@ export interface ISubModules {
 	name: string;
 	path: string;
 	groups?: IGroups[];
-	programs: IProgram[];
+	programs: IPrograms[];
 }
 
-export interface IProgram {
+export interface IPrograms {
 	id: number;
 	name: string;
 	path: string;
@@ -40,7 +40,7 @@ export interface IGroups {
 	id: number;
 	name: string;
 	path: string;
-	programs: IProgram[];
+	programs: IPrograms[];
 }
 
 export interface IActions {
@@ -66,17 +66,17 @@ export interface IMainJoinSubModulesGroups1 {
 	groups: {
 		groupId?: number;
 		groupName?: string;
-		programs: IProgram[];
+		programs: IPrograms[];
 	}[];
 	submodules: {
 		submoduleId?: number;
 		submoduleName?: string;
-		programs: IProgram[];
+		programs: IPrograms[];
 	}[];
 }
 
 export interface IMainJoinSubModulesGroups {
 	id: number;
 	name: string;
-	programs: IProgram[];
+	programs: IPrograms[];
 }

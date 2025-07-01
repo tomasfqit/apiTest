@@ -1,5 +1,4 @@
 import { mdiSecurity, mdiViewModule } from '@mdi/js';
-import { paths } from '../router/paths';
 
 export const getBackgroundImageByDay = (): string => {
 	const today = new Date();
@@ -31,7 +30,10 @@ export const getMenuOptions = () => {
 					name: 'MODELS',
 					icon: mdiViewModule,
 					title: 'Modulos',
-					route: paths.securityModels,
+					//route: paths.securityModels,
+					action: () => {
+						console.log('clicked');
+					},
 				},
 			],
 		},

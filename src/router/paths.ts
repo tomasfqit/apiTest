@@ -2,11 +2,11 @@ export enum paths {
 	// ejemplo
 	exampleUI = '/example-ui',
 	// dashboard
-	dashboard = '/',
+	home = '/home',
 	// login
 	login = '/login',
 	// main layout
 	// seguridad
 	security = '/security',
-	securityModels = '/security/models',
+	securityModels = '/security/modules',
 }
