@@ -36,22 +36,6 @@ export const MainLayoutUIView: React.FC<IMainLayoutUIView> = ({ isLoading, agenc
 			options={options}
 			settings={[
 				{
-					hidden: false,
-					route: '/route-example',
-					title: 'Option 1'
-				},
-				{
-					action: () => { },
-					hidden: false,
-					title: 'Option 2'
-				},
-				{
-					hidden: true,
-					route: '/route-example-2',
-					target: '_blank',
-					title: 'Option 3'
-				},
-				{
 					action: () => { },
 					confirm: {
 						message: 'random text to confirm',

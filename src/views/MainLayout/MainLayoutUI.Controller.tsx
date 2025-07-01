@@ -1,8 +1,7 @@
-import { IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
+import { IActionPanelOption } from "@ITSA-Nucleo/itsa-fe-components";
 import { mdiAccountGroup } from "@mdi/js";
 import { useMemo } from "react";
-import { useValidateNavigate } from "../../hooks/useValidateNavigate";
-import { IPrograms, ISubModules } from "../../interfaces/IMenuItems";
+import { ISubModules } from "../../interfaces/IMenuItems";
 import { useSettingsStore } from "../../store/settings.store";
 import { useMainLayoutHook } from "./MainLayoutUI.hook";
 import { MainLayoutUIView } from "./MainLayoutUI.view";
@@ -18,7 +17,7 @@ const MainLayoutUI = () => {
 		setCurrentModule,
 		setCurrentSubModules
 	} = useMainLayoutHook();
-	const { validateNavigate } = useValidateNavigate();
+	// const { validateNavigate } = useValidateNavigate();
 
 	const { setCurrentAgencyId, setCurrentModuleId } = useSettingsStore();
 
@@ -49,21 +48,19 @@ const MainLayoutUI = () => {
 		}));
 	}, [currentModules, setCurrentModule, setCurrentSubModules, setCurrentAgencyId, setCurrentModuleId, currentAgency]);
 
-	const menuOptions: IAppLayoutMenu[] = useMemo(() => {
-		const res = currentModule?.submodules.map((submodule: ISubModules) => ({
-			title: submodule.name,
-			icon: mdiAccountGroup,
-			subList: submodule.programs.map((program: IPrograms) => ({
-				title: program.name,
+	const menuOptions = useMemo(() => {
+		const res = currentModule?.submodules.map((submodule: ISubModules) => {
+			return {
+				title: submodule.name,
 				icon: mdiAccountGroup,
+				route: submodule.path,
 				action: () => {
-					console.log('variables =>', program.id, currentAgency?.id);
-					validateNavigate(program.path, program.id, currentAgency?.id || 0);
+					console.log('submodule =>', submodule.name);
 				},
-			})),
-		}));
+			};
+		});
 		return res ?? [];
-	}, [currentAgency?.id, currentModule?.submodules, validateNavigate]);
+	}, [currentModule?.submodules]);
 
 	return (
 		<MainLayoutUIView

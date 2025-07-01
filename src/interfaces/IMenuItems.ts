@@ -64,6 +64,7 @@ export interface IValidateRouteResponse {
 
 export interface IMainJoinSubModulesGroups1 {
 	groups: {
+		icon?: string;
 		groupId?: number;
 		groupName?: string;
 		programs: IPrograms[];
