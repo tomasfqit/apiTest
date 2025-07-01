@@ -1,33 +1,39 @@
 import { IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
 import { mdiAccountGroup } from "@mdi/js";
 import { useMemo } from "react";
-import { useCustomsParams } from "../../hooks/useCustomsParams";
+import { useSettingsStore } from "../../store/settings.store";
 import { useMainLayoutHook } from "./MainLayoutUI.hook";
 import { MainLayoutUIView } from "./MainLayoutUI.view";
 
-
 const MainLayoutUI = () => {
-	const { isLoading, agencies, currentAgency, setCurrentAgency, currentModules, currentModule, setCurrentModule, currentSubModules, setCurrentSubModules } = useMainLayoutHook();
-	const { setSearchParams } = useCustomsParams();
+	const {
+		isLoading,
+		agencies,
+		currentAgency,
+		setCurrentAgency,
+		currentModules,
+		currentModule,
+		setCurrentModule,
+		currentSubModules,
+		setCurrentSubModules
+	} = useMainLayoutHook();
 
-
+	const { setCurrentAgencyId, setCurrentModuleId } = useSettingsStore();
 
 	const agenciesAppLayout = useMemo(() => {
 		return agencies.map(agency => ({
 			title: agency.name,
 			action: () => {
+				if (!agency.modules?.length) return;
+				const firstModule = agency.modules[0];
 				setCurrentAgency(agency);
-				setCurrentModule(agency.modules[0]);
-				setCurrentSubModules(agency.modules[0].submodules);
-				console.log('agency =>', agency);
-				setSearchParams({
-					agency: agency.name,
-					module: agency.modules[0].id.toString(),
-				});
+				setCurrentModule(firstModule);
+				setCurrentSubModules(firstModule.submodules);
+				setCurrentAgencyId(agency.id);
+				setCurrentModuleId(firstModule.id);
 			},
 		}));
-	}, [agencies, setCurrentAgency, setCurrentModule, setCurrentSubModules, setSearchParams]);
-
+	}, [agencies, setCurrentAgency, setCurrentModule, setCurrentSubModules, setCurrentAgencyId, setCurrentModuleId]);
 
 	const currentModulosAppLayout: IActionPanelOption[] = useMemo(() => {
 		return currentModules.map(modulo => ({
@@ -35,26 +41,33 @@ const MainLayoutUI = () => {
 			action: () => {
 				setCurrentModule(modulo);
 				setCurrentSubModules(modulo.submodules);
-				setSearchParams({
-					agency: currentAgency?.name || '',
-					module: modulo.id.toString(),
-				});
+				setCurrentAgencyId(currentAgency?.id || 0);
+				setCurrentModuleId(modulo.id);
 			},
 		}));
-	}, [currentModules, setCurrentModule, setCurrentSubModules, setSearchParams, currentAgency]);
-
+	}, [currentModules, setCurrentModule, setCurrentSubModules, setCurrentAgencyId, setCurrentModuleId, currentAgency]);
 
 	const currentSubModulesAppLayout: IAppLayoutMenu[] = useMemo(() => {
 		return currentSubModules.map(subModule => ({
 			title: subModule.name,
 			icon: mdiAccountGroup,
-			action: () => { }
+			action: () => {
+				console.log(`Clicked submodule: ${subModule.name}`);
+				// TODO: implementar navegación u otra lógica
+			}
 		}));
 	}, [currentSubModules]);
 
-
-
-	return <MainLayoutUIView isLoading={isLoading} agencies={agenciesAppLayout} currentAgency={currentAgency} lines={currentModulosAppLayout} currentModule={currentModule} options={currentSubModulesAppLayout} />;
+	return (
+		<MainLayoutUIView
+			isLoading={isLoading}
+			agencies={agenciesAppLayout}
+			currentAgency={currentAgency}
+			lines={currentModulosAppLayout}
+			currentModule={currentModule}
+			options={currentSubModulesAppLayout}
+		/>
+	);
 };
 
 export default MainLayoutUI;

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useCustomsParams } from '../../hooks/useCustomsParams';
 import { IAgencyModules, IModules, ISubModules } from '../../interfaces/IMenuItems';
 import { useGetPermissions } from '../../store/auth/useGetPermissions';
+import { useSettingsStore } from '../../store/settings.store';
 
 export interface IMainLayoutUI {
 	isLoading: boolean;
@@ -16,38 +16,45 @@ export interface IMainLayoutUI {
 }
 
 export const useMainLayoutHook = (): IMainLayoutUI => {
-	const { setSearchParams } = useCustomsParams();
 	const { getPermissions, data, isLoading } = useGetPermissions();
+	const { getCurrentAgencyId, getCurrentModuleId, setCurrentAgencyId, setCurrentModuleId } = useSettingsStore();
 	const [currentAgency, setCurrentAgency] = useState<IAgencyModules | null>(null);
 	const [currentModule, setCurrentModule] = useState<IModules | null>(null);
 	const [currentSubModules, setCurrentSubModules] = useState<ISubModules[]>([]);
 
+	// Obtener permisos si no se tienen aún
 	useEffect(() => {
-		if (data) return;
-		getPermissions();
+		if (!data) getPermissions();
 	}, [data, getPermissions]);
 
-	const agencies = useMemo(() => {
-		if (!data?.agencias?.length) return [];
-		return data.agencias;
-	}, [data]);
+	const agencies = useMemo(() => data?.agencias ?? [], [data]);
+
+	const agencyFromParams = useMemo(() => {
+		const agencyId = getCurrentAgencyId();
+		return agencies.find(agency => agency.id === agencyId) ?? null;
+	}, [agencies, getCurrentAgencyId]);
+
+	const moduleFromParams = useMemo(() => {
+		const moduleId = getCurrentModuleId();
+		return agencyFromParams?.modules.find(module => module.id === moduleId) ?? null;
+	}, [agencyFromParams?.modules, getCurrentModuleId]);
 
 	useEffect(() => {
-		if (agencies?.length) {
-			setCurrentAgency(agencies[0]);
-			setCurrentModule(agencies[0].modules[0]);
-			setCurrentSubModules(agencies[0].modules[0].submodules);
-			setSearchParams({
-				agency: agencies[0].name,
-				module: agencies[0].modules[0].id.toString(),
-			});
-		}
-	}, [agencies, setSearchParams]);
+		if (!agencies.length || currentAgency) return;
 
-	const currentModules = useMemo(() => {
-		if (!currentAgency) return [];
-		return currentAgency.modules;
-	}, [currentAgency]);
+		const defaultAgency = agencyFromParams ?? agencies[0] ?? null;
+		const defaultModule = moduleFromParams ?? defaultAgency?.modules?.[0] ?? null;
+
+		if (defaultAgency && defaultModule) {
+			setCurrentAgency(defaultAgency);
+			setCurrentModule(defaultModule);
+			setCurrentSubModules(defaultModule.submodules ?? []);
+			setCurrentAgencyId(defaultAgency.id);
+			setCurrentModuleId(defaultModule.id);
+		}
+	}, [agencies, currentAgency, agencyFromParams, moduleFromParams, setCurrentAgencyId, setCurrentModuleId]);
+
+	const currentModules = useMemo(() => currentAgency?.modules ?? [], [currentAgency]);
 
 	return {
 		isLoading,
