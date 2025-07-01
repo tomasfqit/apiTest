@@ -1,5 +1,4 @@
 import { Modal } from '@ITSA-Nucleo/itsa-fe-components';
-import '@ITSA-Nucleo/itsa-fe-components/styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';

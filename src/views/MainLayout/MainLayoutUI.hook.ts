@@ -1,75 +1,63 @@
-import { IActionPanelOption } from '@ITSA-Nucleo/itsa-fe-components';
-import { useCallback, useEffect, useState } from 'react';
-import { IAgencyModules, IModules } from '../../interfaces/IMenuItems';
+import { useEffect, useMemo, useState } from 'react';
+import { useCustomsParams } from '../../hooks/useCustomsParams';
+import { IAgencyModules, IModules, ISubModules } from '../../interfaces/IMenuItems';
 import { useGetPermissions } from '../../store/auth/useGetPermissions';
 
 export interface IMainLayoutUI {
-	agencies: IActionPanelOption[];
-	currentAgency?: IAgencyModules;
-	currentModules: IActionPanelOption[];
-	currentModule: IActionPanelOption | null;
 	isLoading: boolean;
+	agencies: IAgencyModules[];
+	currentAgency: IAgencyModules | null;
+	currentModules: IModules[];
+	currentModule: IModules | null;
+	setCurrentAgency: (agency: IAgencyModules) => void;
+	setCurrentModule: (module: IModules) => void;
+	currentSubModules: ISubModules[];
+	setCurrentSubModules: (subModules: ISubModules[]) => void;
 }
 
 export const useMainLayoutHook = (): IMainLayoutUI => {
-	const { getPermissions, isLoading } = useGetPermissions();
-	// const { validateNavigate } = useValidateNavigate();
-	const [agencies, setAgencies] = useState<IActionPanelOption[]>([]);
-	const [currentAgency, setCurrentAgency] = useState<IAgencyModules>();
-	const [currentModules, setCurrentModules] = useState<IActionPanelOption[]>([]);
-	const [currentModule, setCurrentModule] = useState<IActionPanelOption | null>(null);
-
-	const getAgencies = useCallback((agencies: IAgencyModules[]) => {
-		return agencies.map(agency => {
-			return {
-				title: agency.name || '',
-				action: () => {},
-			};
-		});
-	}, []);
-
-	const getModules = useCallback((modules: IModules[]) => {
-		return modules.map(module => {
-			return {
-				title: module.name || '',
-				action: () => {},
-			};
-		});
-	}, []);
-
-	const getCurrentModule = useCallback((modules: IModules[]): IActionPanelOption | null => {
-		if (modules.length > 0) {
-			return {
-				title: modules[0].name || '',
-				action: () => {},
-			};
-		} else {
-			return null;
-		}
-	}, []);
+	const { setSearchParams } = useCustomsParams();
+	const { getPermissions, data, isLoading } = useGetPermissions();
+	const [currentAgency, setCurrentAgency] = useState<IAgencyModules | null>(null);
+	const [currentModule, setCurrentModule] = useState<IModules | null>(null);
+	const [currentSubModules, setCurrentSubModules] = useState<ISubModules[]>([]);
 
 	useEffect(() => {
-		getPermissions({
-			onSuccess: data => {
-				if (data.agencias.length > 0) {
-					setAgencies(getAgencies(data.agencias));
-					setCurrentAgency(data.agencias[0]);
-					setCurrentModules(
-						data.agencias[0].modules.map(module => ({
-							title: module.name || '',
-							action: () => {},
-						})),
-					);
-					setCurrentModule(getCurrentModule(data.agencias[0].modules));
-				} else {
-					setAgencies([]);
-				}
-			},
-			onError: error => {
-				console.log(error);
-			},
-		});
-	}, [getAgencies, getCurrentModule, getModules, getPermissions]);
+		if (data) return;
+		getPermissions();
+	}, [data, getPermissions]);
 
-	return { agencies, currentAgency, currentModules, currentModule, isLoading };
+	const agencies = useMemo(() => {
+		if (!data?.agencias?.length) return [];
+		return data.agencias;
+	}, [data]);
+
+	useEffect(() => {
+		if (agencies?.length) {
+			setCurrentAgency(agencies[0]);
+			setCurrentModule(agencies[0].modules[0]);
+			setCurrentSubModules(agencies[0].modules[0].submodules);
+			setSearchParams({
+				agency: agencies[0].name,
+				module: agencies[0].modules[0].id.toString(),
+			});
+		}
+	}, [agencies, setSearchParams]);
+
+	const currentModules = useMemo(() => {
+		if (!currentAgency) return [];
+		return currentAgency.modules;
+	}, [currentAgency]);
+
+	return {
+		isLoading,
+		agencies,
+		currentAgency,
+		setCurrentAgency,
+		currentModules,
+		currentModule,
+		setCurrentModule,
+		currentSubModules,
+		setCurrentSubModules,
+	};
 };
