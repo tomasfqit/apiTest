@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.1.1",
-		"@ITSA-Nucleo/itsa-fe-components": "0.0.25-staging",
+		"@ITSA-Nucleo/itsa-fe-components": "0.0.26-staging",
 		"@tailwindcss/vite": "^4.0.12",
 		"jwt-decode": "^4.0.0",
 		"react": "19",
