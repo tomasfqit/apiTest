@@ -62,8 +62,9 @@ export const MainLayoutUIView = () => {
 				subList: item.programs.map(program => ({
 					icon: getIcon(program.icon),
 					title: program.name,
-					route: program.path,
-					// action: () => console.log('GO!'),
+					// route: program.path,
+					action: () => console.log('GO!'),
+					sublist: []
 				})),
 			}));
 			return res; // TODO: use this if BE doesnt return the proper options
@@ -75,12 +76,11 @@ export const MainLayoutUIView = () => {
 		const getToken = localStorage.getItem('token');
 		if (getToken) {
 			getPermissions();
-
 			//clearURLParams();
 		}
 	}, [getPermissions]);
 
-
+	console.log('menuOptions =>', menuOptions);
 	return <div className="h-[100vh] w-[100vw]">
 		<AppLayout
 			isLoading={isLoading || menuOptions?.length === 0}
