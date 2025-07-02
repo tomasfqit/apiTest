@@ -1,26 +1,26 @@
-import { IPermission, IPermissionModule, IPermissionSubmodule } from '@ITSA-Nucleo/itsa-fe-components';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { ENDPOINTS_ROUTES } from '../api';
 import { LOCAL_STORAGE_NAMES } from '../constants';
 import { getToken } from '../helpers';
+import { IAgenciesAccess, IAgencyModules, IModules, ISubModules } from '../interfaces/IMenuItems';
 
 type SettingsState = {
 	currentAgency: string | null;
 	currentModule: string | null;
-	currentSubmodules: IPermissionSubmodule[] | null;
-	agencies: IPermission[] | null;
-	modules: IPermissionModule[] | null;
+	currentSubmodules: ISubModules[] | null;
+	agencies: IAgencyModules[] | null;
+	modules: IModules[] | null;
 	error: string | null;
 
-	permissions: IPermission | null;
+	permissions: IAgenciesAccess | null;
 	isLoading: boolean;
 
 	setCurrentAgency: (agency: string) => void;
 	setCurrentModule: (module: string) => void;
-	setCurrentSubmodules: (subModules: IPermissionSubmodule[]) => void;
-	setAgencies: (modulesAvailable: IPermission[]) => void;
-	setModules: (modulesAvailable: IPermissionModule[]) => void;
+	setCurrentSubmodules: (subModules: ISubModules[]) => void;
+	setAgencies: (modulesAvailable: IAgencyModules[]) => void;
+	setModules: (modulesAvailable: IModules[]) => void;
 	getExchangeCode: (claimCode: string, version?: string) => Promise<void>;
 	getPermissions: () => Promise<void>;
 	getCountryLabelById: (countryId: number) => string;
@@ -44,14 +44,14 @@ export const useSettingsStore = create<SettingsState>()(
 				set({ currentModule: module }, false);
 			},
 
-			setCurrentSubmodules: (subModules: IPermissionSubmodule[]) => {
+			setCurrentSubmodules: (subModules: ISubModules[]) => {
 				set({ currentSubmodules: subModules }, false);
 			},
 
-			setAgencies: (agenciesAvailable: IPermission[]) => {
+			setAgencies: (agenciesAvailable: IAgencyModules[]) => {
 				set({ agencies: agenciesAvailable }, false);
 			},
-			setModules: (modulesAvailable: IPermissionModule[]) => {
+			setModules: (modulesAvailable: IModules[]) => {
 				set({ modules: modulesAvailable }, false);
 			},
 			getExchangeCode: async (claimCode: string) => {

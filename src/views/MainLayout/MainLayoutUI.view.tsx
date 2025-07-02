@@ -66,8 +66,18 @@ export const MainLayoutUIView = () => {
 	const menuOptions = useMemo(() => {
 		if (currentSubmodules) {
 			// const menuOptionsMapped = mapPermissionsToMenuFormat(currentSubmodules, MENU_CUSTOM_MAPPING);
-
-			return []; // TODO: use this if BE doesnt return the proper options
+			const res: IAppLayoutMenu[] = currentSubmodules.map(item => ({
+				icon: '',
+				title: item.name,
+				route: '',
+				subList: item.programs.map(program => ({
+					icon: '',
+					title: program.name,
+					route: program.path,
+					// action: () => console.log('GO!'),
+				})),
+			}));
+			return res; // TODO: use this if BE doesnt return the proper options
 			// return menuOptionsMapped;
 		}
 	}, [currentSubmodules]);
@@ -117,7 +127,7 @@ export const MainLayoutUIView = () => {
 					},
 				},
 			]}
-			options={menuOptions as IAppLayoutMenu[]} // TODO update this in component library
+			options={menuOptions ?? []} // TODO update this in component library
 		>
 			<Outlet />
 		</AppLayout>
