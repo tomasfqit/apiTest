@@ -1,3 +1,4 @@
+import { IActionPanelOption } from '@ITSA-Nucleo/itsa-fe-components';
 import { mdiSecurity, mdiViewModule } from '@mdi/js';
 
 export const getBackgroundImageByDay = (): string => {
@@ -13,6 +14,21 @@ export const getBackgroundImageByDay = (): string => {
 		6: '/fondo_login6.png',
 	};
 	return backgroundImages[dayOfWeek as keyof typeof backgroundImages] || '/fondo_login6.png';
+};
+
+export const cleanLocalStorage = () => {
+	localStorage.removeItem('token');
+	localStorage.removeItem('refresh_token');
+	localStorage.removeItem('user');
+};
+
+export const getToken = () => {
+	const userToken = localStorage.getItem('token') || '';
+	let accessToken = null;
+	if (userToken) {
+		accessToken = JSON.parse(userToken).access;
+	}
+	return accessToken;
 };
 
 export const errorMsgRequired = (field: string) => {
@@ -40,4 +56,20 @@ export const getMenuOptions = () => {
 	];
 
 	return ALL_MODULES;
+};
+
+export const getFormattedDataMenu = (
+	schema: { id: number; name: string }[] | null,
+	handleAction: (id: number, name: string) => void,
+): IActionPanelOption[] => {
+	if (schema) {
+		return schema.map((item: { id: number; name: string }) => {
+			return {
+				title: item.name,
+				action: () => handleAction(item.id, item.name),
+			};
+		}) as IActionPanelOption[];
+	} else {
+		return [];
+	}
 };

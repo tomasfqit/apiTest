@@ -26,7 +26,7 @@ export const useValidateToken = () => {
 		localStorage.setItem('token', JSON.stringify(token));
 	}, []);
 
-	const getToken = useCallback(() => {
+	const getToken = useMemo(() => {
 		const token = localStorage.getItem('token');
 		if (!token) {
 			return null;

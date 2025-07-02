@@ -40,7 +40,6 @@ const LoginUIController = () => {
 						onSuccess: (data: string) => {
 							exchangeCode({ claim_code: data }, {
 								onSuccess: (data: IExchangeCodeResult) => {
-									console.log('data =>', data);
 									setToken(data);
 									navigate("/home");
 								}
