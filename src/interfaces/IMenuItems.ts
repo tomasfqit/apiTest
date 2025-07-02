@@ -24,7 +24,8 @@ export interface IModules {
 export interface ISubModules {
 	id: number;
 	name: string;
-	path: string;
+	icon?: string;
+	path?: string;
 	groups?: IGroups[];
 	programs: IPrograms[];
 }
@@ -32,14 +33,16 @@ export interface ISubModules {
 export interface IPrograms {
 	id: number;
 	name: string;
-	path: string;
+	path?: string;
+	icon?: string;
 	actions: IActions;
 }
 
 export interface IGroups {
 	id: number;
 	name: string;
-	path: string;
+	path?: string;
+	icon?: string;
 	programs: IPrograms[];
 }
 

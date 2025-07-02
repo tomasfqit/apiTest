@@ -4,7 +4,7 @@ import { AppLayout, IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa
 import { useCallback, useEffect, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "../../constants";
-import { getFormattedDataMenu } from "../../helpers";
+import { getFormattedDataMenu, getIcon } from "../../helpers";
 import { useSettingsStore } from "../../store/settings.store";
 
 // interface IMainLayoutUIView {
@@ -67,11 +67,11 @@ export const MainLayoutUIView = () => {
 		if (currentSubmodules) {
 			// const menuOptionsMapped = mapPermissionsToMenuFormat(currentSubmodules, MENU_CUSTOM_MAPPING);
 			const res: IAppLayoutMenu[] = currentSubmodules.map(item => ({
-				icon: '',
+				icon: getIcon(item.icon),
 				title: item.name,
 				route: '',
 				subList: item.programs.map(program => ({
-					icon: '',
+					icon: getIcon(program.icon),
 					title: program.name,
 					route: program.path,
 					// action: () => console.log('GO!'),
