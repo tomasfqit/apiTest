@@ -3,6 +3,7 @@
 import { AppLayout, clearURLParams, IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
 import { useCallback, useEffect, useMemo } from "react";
 import { Outlet, Link as RouterLink } from "react-router-dom";
+import ModalLoading from "../../components/layout/ModalLoading";
 import { LOCAL_STORAGE_NAMES } from "../../constants";
 import { getFormattedDataMenu, getIcon } from "../../helpers";
 import { useSettingsStore } from "../../store/settings.store";
@@ -75,7 +76,7 @@ export const MainLayoutUIView = () => {
 			clearURLParams();
 		}
 	}, [getPermissions]);
-	console.log('location.pathname =>', location.pathname);
+
 	return <div className="h-[100vh] w-[100vw]">
 		<AppLayout
 			linkComponent={RouterLink}
@@ -116,6 +117,7 @@ export const MainLayoutUIView = () => {
 		>
 			<Outlet />
 		</AppLayout>
+		<ModalLoading isOpen={isLoading} title="Cargando..." />
 	</div>;
 };
 
