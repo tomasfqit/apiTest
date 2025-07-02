@@ -6,7 +6,7 @@ import { paths } from "./paths";
 
 export const securityRoutes: RouteObject[] = [
 	{
-		path: paths.securityModels,
+		path: "mantenimiento/modulos",
 		element: <ModulesUI />,
 	},
 ];
@@ -21,7 +21,7 @@ export const routes: RouteObject[] = [
 		element: <HomeUI />,
 	},
 	{
-		path: paths.security,
+		path: "seguridad",
 		element: <SecurityUI />,
 		children: securityRoutes,
 	},

@@ -7,19 +7,8 @@ import { LOCAL_STORAGE_NAMES } from "../../constants";
 import { getFormattedDataMenu, getIcon } from "../../helpers";
 import { useSettingsStore } from "../../store/settings.store";
 
-// interface IMainLayoutUIView {
-// 	isLoading: boolean;
-// 	agencies: IActionPanelOption[];
-// 	currentAgency: IAgencyModules | null;
-// 	lines: IActionPanelOption[];
-// 	currentModule: IModules | null;
-// 	options: IAppLayoutMenu[]
-// }
-
 
 export const MainLayoutUIView = () => {
-	//const { getToken } = useValidateToken();
-
 	const {
 		currentAgency,
 		currentModule,

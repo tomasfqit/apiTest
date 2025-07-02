@@ -7,6 +7,6 @@ export enum paths {
 	login = '/login',
 	// main layout
 	// seguridad
-	security = '/security',
-	securityModels = '/security/modules',
+	security = '/seguridad',
+	securityModels = '/seguridad/mantenimiento/modulos',
 }
