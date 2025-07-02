@@ -99,7 +99,7 @@ export const useSettingsStore = create<SettingsState>()(
 					if (!response.ok) {
 						throw new Error(`HTTP error! status: ${response.status}`);
 					}
-
+					console.log('permissions =>', get().permissions);
 					const data = await response.json();
 					const result = data.result;
 					set({ permissions: result, isLoading: false });

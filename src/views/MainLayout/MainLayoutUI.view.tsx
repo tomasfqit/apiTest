@@ -1,8 +1,8 @@
 "use client";
 
-import { AppLayout, IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
+import { AppLayout, clearURLParams, IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
 import { useCallback, useEffect, useMemo } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link as RouterLink } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "../../constants";
 import { getFormattedDataMenu, getIcon } from "../../helpers";
 import { useSettingsStore } from "../../store/settings.store";
@@ -72,13 +72,13 @@ export const MainLayoutUIView = () => {
 		const getToken = localStorage.getItem('token');
 		if (getToken) {
 			getPermissions();
-			//clearURLParams();
+			clearURLParams();
 		}
 	}, [getPermissions]);
-
-	console.log('menuOptions =>', menuOptions);
+	console.log('location.pathname =>', location.pathname);
 	return <div className="h-[100vh] w-[100vw]">
 		<AppLayout
+			linkComponent={RouterLink}
 			isLoading={isLoading || menuOptions?.length === 0}
 			currentPath={location.pathname}
 			avatar={{ name: 'Jan Acuna' }}
