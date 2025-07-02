@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "../../constants";
 import { getFormattedDataMenu, getIcon } from "../../helpers";
+import { IPrograms } from "../../interfaces/IMenuItems";
 import { useSettingsStore } from "../../store/settings.store";
 
 
@@ -52,19 +53,25 @@ export const MainLayoutUIView = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [modules]);
 
+	const navegar = (program: IPrograms) => {
+		console.log('program =>', program);
+
+		return program.path;
+	}
+
 	const menuOptions = useMemo(() => {
 		if (currentSubmodules) {
-			// const menuOptionsMapped = mapPermissionsToMenuFormat(currentSubmodules, MENU_CUSTOM_MAPPING);
 			const res: IAppLayoutMenu[] = currentSubmodules.map(item => ({
 				icon: getIcon(item.icon),
 				title: item.name,
-				route: '',
+				//route: '',
 				subList: item.programs.map(program => ({
 					icon: getIcon(program.icon),
 					title: program.name,
-					// route: program.path,
-					action: () => console.log('GO!'),
-					sublist: []
+					//route: program.path || '/default-route',
+					action: () => navegar(program),
+					isActive: true,
+					subList: []
 				})),
 			}));
 			return res; // TODO: use this if BE doesnt return the proper options
@@ -81,8 +88,12 @@ export const MainLayoutUIView = () => {
 	}, [getPermissions]);
 
 	console.log('menuOptions =>', menuOptions);
-	console.log('actionPanelAgencies =>', actionPanelAgencies);
 	return <div className="h-[100vh] w-[100vw]">
+		{menuOptions?.map(option =>
+			option.subList?.map(sub =>
+				<button onClick={sub.action}>{sub.title}</button>
+			)
+		)}
 		<AppLayout
 			isLoading={isLoading || menuOptions?.length === 0}
 			currentPath={location.pathname}

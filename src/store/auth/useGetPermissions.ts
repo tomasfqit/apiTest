@@ -27,7 +27,7 @@ export const useGetPermissions = create<IState>(set => ({
 		await safeAxiosCall<IState, AxiosResponse<IPermissionResponse>>(
 			() => getConfig(`/security/getPermissions/`),
 			res => {
-				const result = res.data.result.agencias;
+				const result = res.data.result.agencies;
 				set({ data: result });
 				set({ currentAgency: result?.[0] || null });
 				set({ currentModule: result?.[0]?.modules?.[0] || null });
