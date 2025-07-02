@@ -5,7 +5,7 @@ export interface IPermissionResponse {
 }
 
 export interface IAgenciesAccess {
-	agencias: IAgencyModules[];
+	agencies: IAgencyModules[];
 }
 
 export interface IAgencyModules {

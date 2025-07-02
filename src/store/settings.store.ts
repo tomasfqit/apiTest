@@ -103,8 +103,8 @@ export const useSettingsStore = create<SettingsState>()(
 					const data = await response.json();
 					const result = data.result;
 					set({ permissions: result, isLoading: false });
-					const currentAgency = result.agencias[0];
-					setAgencies(result.agencias);
+					const currentAgency = result.agencies[0];
+					setAgencies(result.agencies);
 					setCurrentAgency(currentAgency.name);
 					setModules(currentAgency.modules);
 					const currentModule = currentAgency.modules[0];

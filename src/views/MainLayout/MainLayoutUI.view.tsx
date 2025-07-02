@@ -25,7 +25,7 @@ export const MainLayoutUIView = () => {
 
 	const handleAgency = useCallback((agencyId: number, agencyName: string) => {
 		setCurrentAgency(agencyName);
-		const agenciesModuleMatch = permissions?.agencias.find(item => item.id === agencyId);
+		const agenciesModuleMatch = permissions?.agencies.find(item => item.id === agencyId);
 		const res = agenciesModuleMatch?.modules;
 		setModules(res ?? []);
 		setCurrentModule(agenciesModuleMatch?.modules[0] ? agenciesModuleMatch.modules[0].name : '');
@@ -44,7 +44,7 @@ export const MainLayoutUIView = () => {
 	};
 
 	const actionPanelAgencies: IActionPanelOption[] = useMemo(() => {
-		return getFormattedDataMenu(permissions?.agencias ?? [], handleAgency);
+		return getFormattedDataMenu(permissions?.agencies ?? [], handleAgency);
 	}, [handleAgency, permissions]);
 
 	const actionPanelModules: IActionPanelOption[] = useMemo(() => {
@@ -81,6 +81,7 @@ export const MainLayoutUIView = () => {
 	}, [getPermissions]);
 
 	console.log('menuOptions =>', menuOptions);
+	console.log('actionPanelAgencies =>', actionPanelAgencies);
 	return <div className="h-[100vh] w-[100vw]">
 		<AppLayout
 			isLoading={isLoading || menuOptions?.length === 0}
