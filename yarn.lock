@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ITSA-Nucleo/itsa-fe-components@0.0.26-staging":
-  version "0.0.26-staging"
-  resolved "https://npm.pkg.github.com/download/@ITSA-Nucleo/itsa-fe-components/0.0.26-staging/ef07560119c93497049a207ab86394297676dee6#ef07560119c93497049a207ab86394297676dee6"
-  integrity sha512-cmPpAj02ScDVM4WH+Ur3n9A9iojuCNCO8thDf6eIkSBw5R7bMxGJlQLc23tocICmXR/NSRWoeyxugH6VH964tA==
+"@ITSA-Nucleo/itsa-fe-components@0.0.27-staging":
+  version "0.0.27-staging"
+  resolved "https://npm.pkg.github.com/download/@ITSA-Nucleo/itsa-fe-components/0.0.27-staging/b025e411ec95c532e1c1eac50d844fc7f226c954#b025e411ec95c532e1c1eac50d844fc7f226c954"
+  integrity sha512-2Ft/MBVkUI31VtXdIzzH3WuXko54Ws5UsGg8/U8OIpN7lZ+oGsqpMQCof+ZdXTNOoQRcb5ylHsK4v2FNjRtWdw==
   dependencies:
     "@emotion/react" "^11.14.0"
     "@emotion/styled" "^11.14.0"

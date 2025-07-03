@@ -1,6 +1,6 @@
 "use client";
 
-import { AppLayout, clearURLParams, IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
+import { AppLayout, clearURLParams, IActionPanelOption, IAppLayoutMenu, IPermissionSubmodule, mapPermissionsToMenuFormat } from "@ITSA-Nucleo/itsa-fe-components";
 import { ReactNode, useCallback, useEffect, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "@/constants";
@@ -58,6 +58,27 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	}, [modules]);
 
 	const menuOptions = useMemo(() => {
+		const data: IPermissionSubmodule[] = currentSubmodules.map(item => ({
+			id: item.id,
+			name: item.name,
+			icon: item.icon ?? '',
+			programs: item.programs.map(program => ({
+				id: program.id,
+				name: program.name,
+				icon: program.icon ?? '',
+				path: program.path ?? '',
+				actions: {
+					update: program.actions.actualizar,
+					delete: program.actions.eliminar,
+					create: program.actions.escribir,
+					read: program.actions.leer,
+					all_actions: program.actions.todas_acciones,
+				},
+			})),
+			path: item.path ?? '',
+		}));
+		const res = mapPermissionsToMenuFormat(data);
+		return res;
 		if (currentSubmodules) {
 			const res: IAppLayoutMenu[] = currentSubmodules.map(item => ({
 				icon: getIcon(item.icon),
@@ -130,8 +151,6 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					{children}
 				</main>
 			</div>
-
-
 		</AppLayout>
 	</div>;
 };
