@@ -9,12 +9,17 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { DashboardView } from '@/views/MainLayout/Dashboard.view';
 import { ErrorPage } from '@ITSA-Nucleo/itsa-fe-components';
 export const AppRouter = () => {
+	
 	const { checkAuth, isAuthenticated } = useAuthStore();
 
 	useEffect(() => {
 		// Verificar autenticación al cargar la aplicación
-		checkAuth();
+		const checkAuthUser = async () => {
+			await checkAuth();
+		}
+		checkAuthUser();
 	}, [checkAuth]);
+
 
 	return (
 		<Routes>

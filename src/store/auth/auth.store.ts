@@ -30,7 +30,7 @@ type AuthState = {
 
 export const useAuthStore = create<AuthState>()(
 	devtools(
-		(set) => ({
+		set => ({
 			token: null,
 			user: null,
 			isLoading: false,
@@ -39,7 +39,6 @@ export const useAuthStore = create<AuthState>()(
 
 			setToken: (token: string) => {
 				set({ token, isAuthenticated: true }, false, 'setToken');
-				localStorage.setItem('access_token', token);
 			},
 
 			setUser: (user: User) => {
@@ -48,16 +47,11 @@ export const useAuthStore = create<AuthState>()(
 
 			login: async (credentials: LoginCredentials) => {
 				set({ isLoading: true, error: null }, false, 'login-start');
-				console.log('credentials =>',credentials);
+				console.log('credentials =>', credentials);
 
 				try {
 					const response: LoginResponse = await authService.login(credentials);
-
-					// Guardar tokens
-					localStorage.setItem('access_token', response.result.access);
 					localStorage.setItem('refresh_token', response.result.refresh);
-
-					// Actualizar estado
 					set(
 						{
 							token: response.result.access,
@@ -114,15 +108,15 @@ export const useAuthStore = create<AuthState>()(
 			},
 
 			checkAuth: async () => {
-
-				 const token = await fetchAccessToken();
+				set({ isLoading: true });
+				const token = await fetchAccessToken();
+				set({ isLoading: false });
 
 				if (token) {
 					set({ token, isAuthenticated: true }, false, 'checkAuth-valid');
 				} else {
 					set({ token: null, isAuthenticated: false }, false, 'checkAuth-invalid');
 				}
-
 
 				// // const token = localStorage.getItem('access_token');
 				// // set({ token, isAuthenticated: true }, false, 'checkAuth-valid');

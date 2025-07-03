@@ -15,7 +15,7 @@
 		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
-		"@ITSA-Nucleo/itsa-fe-components": "0.0.26-staging",
+		"@ITSA-Nucleo/itsa-fe-components": "0.0.27-staging",
 		"@hookform/resolvers": "^5.1.1",
 		"@tailwindcss/vite": "^4.0.12",
 		"axios": "^1.9.0",
