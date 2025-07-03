@@ -2,7 +2,6 @@ import axios, { InternalAxiosRequestConfig, AxiosError } from 'axios';
 
 import { useAuthStore } from '@/store/auth/auth.store';
 import { ENDPOINTS_ROUTES } from './enpointsRoute';
-import { clearLocalStorage } from '@ITSA-Nucleo/itsa-fe-components';
 
 export type ErrorType = {
 	message: string;
@@ -42,7 +41,7 @@ export const instanceAXIOS = axios.create({
 	},
 });
 
-export const fetchAccessToken = async (): Promise<string | null> => {
+export const 	fetchAccessToken = async (): Promise<string | null> => {
 	const { token, setToken } = useAuthStore.getState();
 	if (token) {
 		accessToken = token;
@@ -65,7 +64,7 @@ export const fetchAccessToken = async (): Promise<string | null> => {
 		return accessToken;
 	} catch (err) {
 		console.error('Error fetching token', err);
-		clearLocalStorage();
+		//clearLocalStorage();
 		// window.location.href = '/login'; // TODO: add this to COMP
 		return null;
 	}

@@ -1,103 +1,55 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useAuthStore } from '@/store/auth/auth.store';
-import { ROUTES } from './RoutesPath';
-import { AuthLayoutUI } from '../views/AuhLayout/AuthLayoutUI.view';
-import LoginUIController from '@/views/AuhLayout/components/LoginUI.controller';
-import MainLayoutUI from '@/views/MainLayout/MainLayoutUI.Controller';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { DashboardView } from '@/views/MainLayout/Dashboard.view';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { ROUTES } from './Paths';
 import { ErrorPage } from '@ITSA-Nucleo/itsa-fe-components';
+import { fetchAccessToken } from '@/api/config';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { getRoutesConfig } from './RouterComponents';
+
 export const AppRouter = () => {
-	
-	const { token, checkAuth, isAuthenticated } = useAuthStore();
+	const [authChecked, setAuthChecked] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		if(token)return;
-		// Verificar autenticación al cargar la aplicación
-		const checkAuthUser = async () => {
-			await checkAuth();
-		}
-		checkAuthUser();
-	}, [checkAuth, token]);
-// console.log('isLoading =>',isLoading);
-// 	if (isLoading) {
-// 		return <LoadingSpinner isOpen={true} title="Verificando autenticación..." />;
-// 	}else{
-		return (
-			<Routes>
-				{/* Rutas públicas (AuthLayout) */}
-				<Route
-					path={ROUTES.LOGIN}
-					element={
-						isAuthenticated ? (
-							<Navigate to={ROUTES.DASHBOARD} replace />
-						) : (
-							<AuthLayoutUI>
-								<LoginUIController />
-							</AuthLayoutUI>
-						)
-					}
-				/>
+		const checkAuth = async () => {
+			const token = await fetchAccessToken();
+			setIsAuthenticated(!!token);
+			setAuthChecked(true);
+		};
+		checkAuth();
+	}, []);
 
-				{/* Rutas protegidas (MainLayout) */}
-				<Route
-					path={ROUTES.DASHBOARD}
-					element={
-						<ProtectedRoute>
-							<MainLayoutUI>
-								<DashboardView />
-							</MainLayoutUI>
-						</ProtectedRoute>
-					}
-				/>
-				{/*
+	if (!authChecked) {
+		return <LoadingSpinner isOpen title="Verificando autenticación..." />;
+	}
 
+	// Obtener la configuración de rutas basada en el estado de autenticación
+	const routesConfig = getRoutesConfig(isAuthenticated);
+
+	return (
+		<Routes>
+			{/* Renderizar rutas dinámicamente desde la configuración */}
+			{routesConfig.map((route) => (
+				<Route
+					key={route.path}
+					path={route.path}
+					element={route.element}
+				/>
+			))}
+			
+			{/* Ruta de error 404 */}
 			<Route
-				path={ROUTES.PROFILE}
+				path={ROUTES.NOT_FOUND}
 				element={
-					<ProtectedRoute>
-						<MainLayoutUI>
-							<ProfileView />
-						</MainLayoutUI>
-					</ProtectedRoute>
+					<ErrorPage
+						error="404"
+						handleClick={() => navigate(ROUTES.DASHBOARD)}
+						message="Página no encontrada"
+					/>
 				}
-			/> */}
-
-				{/* Ruta por defecto */}
-				<Route
-					path={ROUTES.HOME}
-					element={
-						isAuthenticated ? (
-							<Navigate to={ROUTES.DASHBOARD} replace />
-						) : (
-							<Navigate to={ROUTES.LOGIN} replace />
-						)
-					}
-				/>
-
-				<Route
-					path={"/"}
-					element={
-						isAuthenticated ? (
-							<Navigate to={ROUTES.DASHBOARD} replace />
-						) : (
-							<Navigate to={ROUTES.LOGIN} replace />
-						)
-					}
-				/>
-
-				{/* Ruta 404 */}
-				<Route
-					path={ROUTES.NOT_FOUND}
-					element={
-						<ErrorPage error={"Pagina no encontrada"} message="Página no encontrada" handleClick={() => console.log('click')} />
-					}
-				/>
-			</Routes>
-		);
-	// }
-
-
-	
+			/>
+		</Routes>
+	);
 };
+

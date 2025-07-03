@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth/auth.store';
-import { ROUTES } from '../../router/RoutesPath';
+import { ROUTES } from '../../router/Paths';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 interface MainLayoutProps {

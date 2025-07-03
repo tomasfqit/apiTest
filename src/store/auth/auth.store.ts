@@ -83,6 +83,8 @@ export const useAuthStore = create<AuthState>()(
 					const refreshToken = localStorage.getItem('refresh_token');
 					if (refreshToken) {
 						await authService.logout(refreshToken);
+						cleanLocalStorage();
+						window.location.href = '/login';
 					}
 				} catch (error) {
 					console.error('Error during logout:', error);

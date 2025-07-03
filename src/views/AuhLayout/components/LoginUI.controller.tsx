@@ -5,7 +5,6 @@ import { useLoginStore } from '@/store/auth/useLoginStore';
 import { TOAST_ERROR } from '@/utils/toast';
 import { useModalStore } from '@ITSA-Nucleo/itsa-fe-components';
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useExchangeCodeStore } from '@/store/auth/useExchangeCode';
 import { useLoginUIHook } from './LoginUI.hook';
 import { LoginUIView } from './LoginUI.view';
@@ -20,7 +19,8 @@ const LoginUIController = () => {
     const { login, isLoading: isLoadingLogin } = useLoginStore();
     const { exchangeCode, isLoading: isLoadingExchangeCode } = useExchangeCodeStore();
     const { setToken } = useAuthStore.getState();
-    const navigate = useNavigate();
+    // const { getPermissions, isLoading: isLoadingPermissions } = useSettingsStore.getState();
+    // const navigate = useNavigate();
 
     const openModalActiveSessions = useCallback((data: ICheckSessionResult[], username: string, password: string) => {
         openModal(
@@ -45,7 +45,8 @@ const LoginUIController = () => {
                                     localStorage.setItem('refresh_token', data.refresh);
                                     setToken(data.access);
                                     //await getPermissions();
-                                    navigate("/home");
+                                    //navigate("/home");
+                                    window.location.href = '/home';
                                 }
                             })
                         },
@@ -58,7 +59,7 @@ const LoginUIController = () => {
                 }
             }
         })
-    }, [checkSession, exchangeCode, login, navigate, openModalActiveSessions, setToken]);
+    }, [checkSession, exchangeCode, login, openModalActiveSessions, setToken]);
 
     return <LoginUIView {...hookData} onSubmit={onSubmit} isLoading={isLoadingCheckSessions || isLoadingLogin || isLoadingExchangeCode} />;
 };
