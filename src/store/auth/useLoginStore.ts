@@ -1,9 +1,10 @@
 import { post as postConfig } from '@/api/config';
-import { safeAxiosCall } from '@/api/safeAxiosCall';
-import { ILoginRequest, ILoginResponse } from '@/interfaces/login';
+import { safeAxiosCall } from '@/api/config';
 import { AxiosResponse } from 'axios';
 import { create } from 'zustand';
-import { AxiosErrorType } from '../../interfaces/Common';
+import { AxiosErrorType } from '@/api/config';
+import { ILoginRequest, ILoginResponse } from './IAuth';
+import { ENDPOINTS_ROUTES } from '@/api/enpointsRoute';
 
 interface FunctionProps {
 	onSuccess: (data: string) => void;
@@ -20,7 +21,7 @@ export const useLoginStore = create<IState>(set => ({
 	login: async (request: ILoginRequest, { onSuccess, onError }: FunctionProps) => {
 		set({ isLoading: true });
 		await safeAxiosCall<IState, AxiosResponse<ILoginResponse>>(
-			() => postConfig('/security/login/', request),
+			() => postConfig(ENDPOINTS_ROUTES.login, request),
 			res => {
 				const result = res.data.result;
 				set({ data: result });
@@ -28,7 +29,7 @@ export const useLoginStore = create<IState>(set => ({
 			},
 			err => {
 				const error = err as AxiosErrorType;
-				console.log('erroaaaaaaaar', error);
+				console.log('Error al iniciar sesión', error);
 				onError?.(error.message);
 			},
 			set,

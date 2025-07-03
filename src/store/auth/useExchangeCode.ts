@@ -1,10 +1,10 @@
 import { get as getConfig } from '@/api/config';
-import { safeAxiosCall } from '@/api/safeAxiosCall';
-import { IExchangeCodeRequest, IExchangeCodeResponse, IExchangeCodeResult } from '@/interfaces/login';
+import { safeAxiosCall } from '@/api/config';
 import { AxiosResponse } from 'axios';
 import { create } from 'zustand';
-import { AxiosErrorType } from '../../interfaces/Common';
-import { TOAST_ERROR } from '../../utils/toast';
+import { AxiosErrorType } from '@/api/config';
+import { IExchangeCodeRequest, IExchangeCodeResponse, IExchangeCodeResult } from './IAuth';
+import { ENDPOINTS_ROUTES } from '@/api/enpointsRoute';
 
 interface FunctionProps {
 	onSuccess: (data: IExchangeCodeResult) => void;
@@ -20,7 +20,7 @@ export const useExchangeCodeStore = create<IState>(set => ({
 	exchangeCode: async (request: IExchangeCodeRequest, { onSuccess }: FunctionProps) => {
 		set({ isLoading: true });
 		await safeAxiosCall<IState, AxiosResponse<IExchangeCodeResponse>>(
-			() => getConfig(`/security/exchangecode/?claim_code=${request.claim_code}`),
+			() => getConfig(`${ENDPOINTS_ROUTES.exchangeCode}?claim_code=${request.claim_code}`),
 			res => {
 				const result = res.data.result;
 				set({ data: result });
@@ -29,7 +29,7 @@ export const useExchangeCodeStore = create<IState>(set => ({
 			err => {
 				const error = err as AxiosErrorType;
 				const msg = error.response?.data.message || '';
-				TOAST_ERROR(msg);
+				console.log('Error al obtener el código de intercambio', msg);
 			},
 			set,
 		);

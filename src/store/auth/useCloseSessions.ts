@@ -1,9 +1,9 @@
-import { post as postConfig } from '@/api/config';
-import { safeAxiosCall } from '@/api/safeAxiosCall';
-import { ICloseSessionRequest, IResponseGeneric } from '@/interfaces/login';
+import { post as postConfig, safeAxiosCall } from '@/api/config';
 import { AxiosResponse } from 'axios';
 import { create } from 'zustand';
-import { AxiosErrorType } from '../../interfaces/Common';
+import { AxiosErrorType } from '@/api/config';
+import { ICloseSessionRequest, IResponseGeneric } from './IAuth';
+import { ENDPOINTS_ROUTES } from '@/api/enpointsRoute';
 
 interface FunctionProps {
 	onSuccess: (data: IResponseGeneric) => void;
@@ -20,7 +20,7 @@ export const useCloseSessions = create<IState>(set => ({
 	closeSession: async (request: ICloseSessionRequest, { onSuccess, onError }: FunctionProps) => {
 		set({ isLoading: true });
 		await safeAxiosCall<IState, AxiosResponse<IResponseGeneric>>(
-			() => postConfig('/security/closeSession/', request),
+			() => postConfig(ENDPOINTS_ROUTES.closeSession, request),
 			res => {
 				const result = res.data;
 				set({ data: result });
