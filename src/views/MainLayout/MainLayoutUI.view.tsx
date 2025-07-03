@@ -6,7 +6,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "@/constants";
 import { useSettingsStore } from "@/store/settings.store";
 import { useAuthStore } from "@/store/auth/auth.store";
-import { getFormattedDataMenu } from "@/helpers";
+import { getFormattedDataMenu, getIconByName } from "@/helpers";
 
 interface MainLayoutProps {
 	children: ReactNode;
@@ -61,11 +61,11 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		const data: IPermissionSubmodule[] = currentSubmodules.map(item => ({
 			id: item.id,
 			name: item.name,
-			icon: item.icon ?? '',
+			icon: getIconByName(item.icon),
 			programs: item.programs.map(program => ({
 				id: program.id,
 				name: program.name,
-				icon: program.icon ?? '',
+				icon: getIconByName(program.icon),
 				path: program.path ?? '',
 				actions: {
 					update: program.actions.actualizar,
@@ -91,9 +91,6 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		}
 	}, [getPermissions, permissions, isLoadingAuth, token]);
 
-
-console.log('actionPanelModules =>',actionPanelModules);
-
 	return <div className="w-[100vw] h-[100vh]">
 		<AppLayout
 			linkComponent={RouterLink}
@@ -110,7 +107,7 @@ console.log('actionPanelModules =>',actionPanelModules);
 					action: () => console.log('GO!'),
 				},
 			]}
-			lines={[...actionPanelModules]}
+			lines={actionPanelModules}
 			agencies={actionPanelAgencies}
 			settings={[
 				{
@@ -133,7 +130,7 @@ console.log('actionPanelModules =>',actionPanelModules);
 			options={menuOptions ?? []} // TODO update this in component library
 		>
 			<div
-				className="min-w-[250px] max-w-[1446px] h-[calc(100vh-69px)] bg-gray-500" hidden={isLoading}>
+				className="min-w-[250px] max-w-[1446px] h-[calc(100vh-69px)] bg-gray-100" hidden={isLoading}>
 				<main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
 					{children}
 				</main>

@@ -12,6 +12,7 @@ export interface IAgencyModules {
 	id: number;
 	name: string;
 	modules: IModules[];
+	icon?: string;
 }
 
 export interface IModules {
@@ -19,6 +20,7 @@ export interface IModules {
 	name: string;
 	path: string;
 	submodules: ISubModules[];
+	icon?: string;
 }
 
 export interface ISubModules {
