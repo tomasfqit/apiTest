@@ -92,7 +92,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	}, [getPermissions, permissions, isLoadingAuth, token]);
 
 
-
+console.log('actionPanelModules =>',actionPanelModules);
 
 	return <div className="w-[100vw] h-[100vh]">
 		<AppLayout
@@ -110,7 +110,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					action: () => console.log('GO!'),
 				},
 			]}
-			lines={actionPanelModules}
+			lines={[...actionPanelModules]}
 			agencies={actionPanelAgencies}
 			settings={[
 				{
