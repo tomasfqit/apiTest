@@ -26,7 +26,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		setModules,
 		getPermissions,
 	} = useSettingsStore(state => state);
-	const { logout } = useAuthStore.getState();
+	const { logout, token, isLoading: isLoadingAuth } = useAuthStore.getState();
 
 	const handleAgency = useCallback((agencyId: number, agencyName: string) => {
 		setCurrentAgency(agencyName);
@@ -74,16 +74,14 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	}, [currentSubmodules]);
 
 	useEffect(() => {
-		const { token } = useAuthStore.getState();
-		console.log('permissions =>', permissions);
-		if (token && !permissions) {
+		if (token && !permissions && !isLoadingAuth) {
 			const getPermissionsUser = async () => {
 				await getPermissions();
 			}
 			getPermissionsUser();
 			clearURLParams();
 		}
-	}, [getPermissions, permissions]);
+	}, [getPermissions, permissions, isLoadingAuth, token]);
 
 
 

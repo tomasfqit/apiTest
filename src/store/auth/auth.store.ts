@@ -110,14 +110,22 @@ export const useAuthStore = create<AuthState>()(
 			checkAuth: async () => {
 				set({ isLoading: true });
 				const token = await fetchAccessToken();
-				set({ isLoading: false });
 
 				if (token) {
 					set({ token, isAuthenticated: true }, false, 'checkAuth-valid');
 				} else {
 					set({ token: null, isAuthenticated: false }, false, 'checkAuth-invalid');
 				}
+				set({ isLoading: false });
 
+
+			},
+		}),
+		{ name: 'AuthStore' },
+	),
+);
+//"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MTY1Nzk1NCwiaWF0IjoxNzUxNTcxNTU0LCJqdGkiOiI4YTExNDc2ZjExZTY0YzRiYmE0NGEyYTgwMWFlYjgxZCIsInVzZXJfaWQiOjE5fQ.ykVpJ3skmLP1cyXPT0VuUHFgsI3twz-sCp41pYJCWVc",
+//"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNTg5NTU0LCJpYXQiOjE3NTE1NzE1NTQsImp0aSI6ImM5MTA0MzdiY2IxOTRkMTJiN2ZlNGM4MDEwMTNhMTdkIiwidXNlcl9pZCI6MTksInNlc3Npb25faWQiOjc0MH0.aQbLbEPgPoM934ixVR596dE6Xj78kHdi3ljzT_W0hnI"
 				// // const token = localStorage.getItem('access_token');
 				// // set({ token, isAuthenticated: true }, false, 'checkAuth-valid');
 				// const token = localStorage.getItem('access_token');
@@ -139,10 +147,3 @@ export const useAuthStore = create<AuthState>()(
 				// 		);
 				// 	}
 				// }
-			},
-		}),
-		{ name: 'AuthStore' },
-	),
-);
-//"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MTY1Nzk1NCwiaWF0IjoxNzUxNTcxNTU0LCJqdGkiOiI4YTExNDc2ZjExZTY0YzRiYmE0NGEyYTgwMWFlYjgxZCIsInVzZXJfaWQiOjE5fQ.ykVpJ3skmLP1cyXPT0VuUHFgsI3twz-sCp41pYJCWVc",
-//"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNTg5NTU0LCJpYXQiOjE3NTE1NzE1NTQsImp0aSI6ImM5MTA0MzdiY2IxOTRkMTJiN2ZlNGM4MDEwMTNhMTdkIiwidXNlcl9pZCI6MTksInNlc3Npb25faWQiOjc0MH0.aQbLbEPgPoM934ixVR596dE6Xj78kHdi3ljzT_W0hnI"

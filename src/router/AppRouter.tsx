@@ -10,45 +10,48 @@ import { DashboardView } from '@/views/MainLayout/Dashboard.view';
 import { ErrorPage } from '@ITSA-Nucleo/itsa-fe-components';
 export const AppRouter = () => {
 	
-	const { checkAuth, isAuthenticated } = useAuthStore();
+	const { token, checkAuth, isAuthenticated } = useAuthStore();
 
 	useEffect(() => {
+		if(token)return;
 		// Verificar autenticación al cargar la aplicación
 		const checkAuthUser = async () => {
 			await checkAuth();
 		}
 		checkAuthUser();
-	}, [checkAuth]);
+	}, [checkAuth, token]);
+// console.log('isLoading =>',isLoading);
+// 	if (isLoading) {
+// 		return <LoadingSpinner isOpen={true} title="Verificando autenticación..." />;
+// 	}else{
+		return (
+			<Routes>
+				{/* Rutas públicas (AuthLayout) */}
+				<Route
+					path={ROUTES.LOGIN}
+					element={
+						isAuthenticated ? (
+							<Navigate to={ROUTES.DASHBOARD} replace />
+						) : (
+							<AuthLayoutUI>
+								<LoginUIController />
+							</AuthLayoutUI>
+						)
+					}
+				/>
 
-
-	return (
-		<Routes>
-			{/* Rutas públicas (AuthLayout) */}
-			<Route
-				path={ROUTES.LOGIN}
-				element={
-					isAuthenticated ? (
-						<Navigate to={ROUTES.DASHBOARD} replace />
-					) : (
-						<AuthLayoutUI>
-							<LoginUIController />
-						</AuthLayoutUI>
-					)
-				}
-			/>
-
-			{/* Rutas protegidas (MainLayout) */}
-			<Route
-				path={ROUTES.DASHBOARD}
-				element={
-					<ProtectedRoute>
-						<MainLayoutUI>
-							<DashboardView />
-						</MainLayoutUI>
-					</ProtectedRoute>
-				}
-			/>
-			{/*
+				{/* Rutas protegidas (MainLayout) */}
+				<Route
+					path={ROUTES.DASHBOARD}
+					element={
+						<ProtectedRoute>
+							<MainLayoutUI>
+								<DashboardView />
+							</MainLayoutUI>
+						</ProtectedRoute>
+					}
+				/>
+				{/*
 
 			<Route
 				path={ROUTES.PROFILE}
@@ -61,25 +64,40 @@ export const AppRouter = () => {
 				}
 			/> */}
 
-			{/* Ruta por defecto */}
-			<Route
-				path={ROUTES.HOME}
-				element={
-					isAuthenticated ? (
-						<Navigate to={ROUTES.DASHBOARD} replace />
-					) : (
-						<Navigate to={ROUTES.LOGIN} replace />
-					)
-				}
-			/>
+				{/* Ruta por defecto */}
+				<Route
+					path={ROUTES.HOME}
+					element={
+						isAuthenticated ? (
+							<Navigate to={ROUTES.DASHBOARD} replace />
+						) : (
+							<Navigate to={ROUTES.LOGIN} replace />
+						)
+					}
+				/>
 
-			{/* Ruta 404 */}
-			<Route
-				path={ROUTES.NOT_FOUND}
-				element={
-					<ErrorPage error={"Pagina no encontrada"} message="Página no encontrada" handleClick={() =>  console.log('click')} />
-				}
-			/>
-		</Routes>
-	);
+				<Route
+					path={"/"}
+					element={
+						isAuthenticated ? (
+							<Navigate to={ROUTES.DASHBOARD} replace />
+						) : (
+							<Navigate to={ROUTES.LOGIN} replace />
+						)
+					}
+				/>
+
+				{/* Ruta 404 */}
+				<Route
+					path={ROUTES.NOT_FOUND}
+					element={
+						<ErrorPage error={"Pagina no encontrada"} message="Página no encontrada" handleClick={() => console.log('click')} />
+					}
+				/>
+			</Routes>
+		);
+	// }
+
+
+	
 };
