@@ -29,7 +29,6 @@ export const AppRouter = () => {
 
 	return (
 		<Routes>
-			{/* Renderizar rutas dinámicamente desde la configuración */}
 			{routesConfig.map((route) => (
 				<Route
 					key={route.path}
@@ -37,7 +36,6 @@ export const AppRouter = () => {
 					element={route.element}
 				/>
 			))}
-			
 			{/* Ruta de error 404 */}
 			<Route
 				path={ROUTES.NOT_FOUND}

@@ -9,6 +9,11 @@ export const ROUTES = {
 	// Default routes
 	HOME: '/home',
 	NOT_FOUND: '*',
+
+
+	//security
+	SECURITY_MAINTENANCE_MODULES: '/seguridad/mantenimiento/modulos',
+
 } as const;
 
 export type RouteKey = keyof typeof ROUTES;

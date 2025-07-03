@@ -5,7 +5,7 @@ import { AuthLayoutUI } from '../views/AuhLayout/AuthLayoutUI.view';
 import LoginUIController from '@/views/AuhLayout/components/LoginUI.controller';
 import MainLayoutUI from '@/views/MainLayout/MainLayoutUI.Controller';
 import { DashboardView } from '@/views/MainLayout/Dashboard.view';
-import { ProfileView } from '@/views/MainLayout/Profile.view';
+import ModulesUI from '@/views/security/modules/ModulesUI.controller';
 
 export interface RouteConfig {
 	path: string;
@@ -64,13 +64,14 @@ export const getRoutesConfig = (isAuthenticated: boolean): RouteConfig[] => {
 		element: createRouteElement(DashboardView, 'main', isAuthenticated)
 	});
 
-	// Ruta de profile
+	// security
 	routes.push({
-		path: ROUTES.PROFILE,
+		path: ROUTES.SECURITY_MAINTENANCE_MODULES,
 		layout: 'main',
 		requiresAuth: true,
-		element: createRouteElement(ProfileView, 'main', isAuthenticated)
+        element: createRouteElement(ModulesUI, 'main', isAuthenticated)
 	});
+    // end security
 
 	// Ruta de home (redirección)
 	routes.push({
