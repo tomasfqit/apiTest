@@ -5,6 +5,7 @@ import { ErrorPage } from '@ITSA-Nucleo/itsa-fe-components';
 import { fetchAccessToken } from '@/api/config';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { getRoutesConfig } from './RouterComponents';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 export const AppRouter = () => {
 	const [authChecked, setAuthChecked] = useState(false);
@@ -30,11 +31,13 @@ export const AppRouter = () => {
 	return (
 		<Routes>
 			{routesConfig.map((route) => (
-				<Route
-					key={route.path}
-					path={route.path}
-					element={route.element}
-				/>
+				
+					<Route
+						key={route.path}
+						path={route.path}
+					element={<ProtectedRoute>{route.element}</ProtectedRoute>}
+					/>
+				
 			))}
 			{/* Ruta de error 404 */}
 			<Route

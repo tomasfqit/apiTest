@@ -15,22 +15,22 @@ export interface RouteConfig {
 	layout?: 'auth' | 'main' | 'none';
 }
 
-// Switch para manejar diferentes tipos de rutas
+//
 export const createRouteElement = (
 	Component: React.ComponentType,
 	layout: 'auth' | 'main' | 'none' = 'none',
 	isAuthenticated: boolean,
 	redirectPath?: string
 ): ReactNode => {
-	// Si hay redirección y está autenticado
+	
 	if (redirectPath && isAuthenticated) {
 		return React.createElement(Navigate, { to: redirectPath, replace: true });
 	}
 
-	// Crear el elemento base
+	
 	const baseElement = React.createElement(Component);
 
-	// Aplicar layout según el tipo
+	
 	switch (layout) {
 		case 'auth':
 			return React.createElement(AuthLayoutUI, null, baseElement);
@@ -44,11 +44,11 @@ export const createRouteElement = (
 	}
 };
 
-// Función principal para obtener la configuración de rutas
+
 export const getRoutesConfig = (isAuthenticated: boolean): RouteConfig[] => {
 	const routes: RouteConfig[] = [];
 
-	// Ruta de login
+	
 	routes.push({
 		path: ROUTES.LOGIN,
 		layout: 'auth',
@@ -56,7 +56,7 @@ export const getRoutesConfig = (isAuthenticated: boolean): RouteConfig[] => {
 		element: createRouteElement(LoginUIController, 'auth', isAuthenticated, ROUTES.DASHBOARD)
 	});
 
-	// Ruta de dashboard
+	
 	routes.push({
 		path: ROUTES.DASHBOARD,
 		layout: 'main',
@@ -64,7 +64,7 @@ export const getRoutesConfig = (isAuthenticated: boolean): RouteConfig[] => {
 		element: createRouteElement(DashboardView, 'main', isAuthenticated)
 	});
 
-	// security
+	//security
 	routes.push({
 		path: ROUTES.SECURITY_MAINTENANCE_MODULES,
 		layout: 'main',
@@ -73,7 +73,7 @@ export const getRoutesConfig = (isAuthenticated: boolean): RouteConfig[] => {
 	});
     // end security
 
-	// Ruta de home (redirección)
+	
 	routes.push({
 		path: ROUTES.HOME,
 		layout: 'none',
@@ -83,7 +83,7 @@ export const getRoutesConfig = (isAuthenticated: boolean): RouteConfig[] => {
 		})
 	});
 
-	// Ruta raíz (redirección)
+	
 	routes.push({
 		path: '/',
 		layout: 'none',
