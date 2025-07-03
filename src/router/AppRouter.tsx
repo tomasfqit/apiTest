@@ -3,10 +3,6 @@ import { useEffect } from 'react';
 import { useAuthStore } from '@/store/auth/auth.store';
 import { ROUTES } from './RoutesPath';
 import { AuthLayoutUI } from '../views/AuhLayout/AuthLayoutUI.view';
-import { MainLayoutUI } from '../views/MainLayout/MainLayoutUI.view';
-import { DashboardView } from '../views/MainLayout/Dashboard.view';
-import { ProfileView } from '../views/MainLayout/Profile.view';
-import { ProtectedRoute } from '../components/ProtectedRoute';
 import LoginUIController from '@/views/AuhLayout/components/LoginUI.controller';
 export const AppRouter = () => {
 	const { checkAuth, isAuthenticated } = useAuthStore();
@@ -33,7 +29,7 @@ export const AppRouter = () => {
 			/>
 
 			{/* Rutas protegidas (MainLayout) */}
-			<Route
+			{/* <Route
 				path={ROUTES.DASHBOARD}
 				element={
 					<ProtectedRoute>
@@ -53,7 +49,7 @@ export const AppRouter = () => {
 						</MainLayoutUI>
 					</ProtectedRoute>
 				}
-			/>
+			/> */}
 
 			{/* Ruta por defecto */}
 			<Route
