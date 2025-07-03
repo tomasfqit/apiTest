@@ -3,7 +3,7 @@ export const ROUTES = {
 	LOGIN: '/login',
 	
 	// Main routes
-	DASHBOARD: '/dashboard',
+	DASHBOARD: '/home',
 	PROFILE: '/profile',
 	
 	// Default routes

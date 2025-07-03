@@ -1,14 +1,18 @@
 "use client";
 
 import { AppLayout, clearURLParams, IActionPanelOption, IAppLayoutMenu } from "@ITSA-Nucleo/itsa-fe-components";
-import { useCallback, useEffect, useMemo } from "react";
-import { Outlet, Link as RouterLink } from "react-router-dom";
+import { ReactNode, useCallback, useEffect, useMemo } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "@/constants";
 import { useSettingsStore } from "@/store/settings.store";
 import { useAuthStore } from "@/store/auth/auth.store";
 import { getFormattedDataMenu, getIcon } from "@/helpers";
 
-export const MainLayoutUIView = () => {
+interface MainLayoutProps {
+	children: ReactNode;
+}
+
+export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	const {
 		currentAgency,
 		currentModule,
@@ -124,7 +128,9 @@ export const MainLayoutUIView = () => {
 		>
 			<div
 				className="min-w-[250px] max-w-[1446px] h-[calc(100vh-69px)] bg-gray-500" hidden={isLoading}>
-				<Outlet />
+				<main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+					{children}
+				</main>
 			</div>
 
 

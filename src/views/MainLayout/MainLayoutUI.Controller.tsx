@@ -1,9 +1,13 @@
+import { ReactNode } from "react";
 import { MainLayoutUIView } from "./MainLayoutUI.view";
+interface MainLayoutProps {
+	children: ReactNode;
+}
 
-const MainLayoutUI = () => {
+const MainLayoutUI = ({ children }: MainLayoutProps) => {
 
 	return (
-		<MainLayoutUIView />
+		<MainLayoutUIView children={children} />
 	);
 };
 

@@ -4,6 +4,10 @@ import { useAuthStore } from '@/store/auth/auth.store';
 import { ROUTES } from './RoutesPath';
 import { AuthLayoutUI } from '../views/AuhLayout/AuthLayoutUI.view';
 import LoginUIController from '@/views/AuhLayout/components/LoginUI.controller';
+import MainLayoutUI from '@/views/MainLayout/MainLayoutUI.Controller';
+import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { DashboardView } from '@/views/MainLayout/Dashboard.view';
+import { ErrorPage } from '@ITSA-Nucleo/itsa-fe-components';
 export const AppRouter = () => {
 	const { checkAuth, isAuthenticated } = useAuthStore();
 
@@ -29,7 +33,7 @@ export const AppRouter = () => {
 			/>
 
 			{/* Rutas protegidas (MainLayout) */}
-			{/* <Route
+			<Route
 				path={ROUTES.DASHBOARD}
 				element={
 					<ProtectedRoute>
@@ -39,6 +43,7 @@ export const AppRouter = () => {
 					</ProtectedRoute>
 				}
 			/>
+			{/*
 
 			<Route
 				path={ROUTES.PROFILE}
@@ -67,18 +72,7 @@ export const AppRouter = () => {
 			<Route
 				path={ROUTES.NOT_FOUND}
 				element={
-					<div className="min-h-screen flex items-center justify-center bg-gray-50">
-						<div className="text-center">
-							<h1 className="text-6xl font-bold text-gray-900">404</h1>
-							<p className="text-xl text-gray-600 mt-4">Página no encontrada</p>
-							<button
-								onClick={() => window.history.back()}
-								className="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-							>
-								Volver
-							</button>
-						</div>
-					</div>
+					<ErrorPage error={"Pagina no encontrada"} message="Página no encontrada" handleClick={() =>  console.log('click')} />
 				}
 			/>
 		</Routes>
