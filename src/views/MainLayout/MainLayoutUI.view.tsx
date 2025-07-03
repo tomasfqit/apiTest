@@ -1,12 +1,12 @@
 "use client";
 
-import { AppLayout, clearURLParams, IActionPanelOption, IAppLayoutMenu, IPermissionSubmodule, mapPermissionsToMenuFormat } from "@ITSA-Nucleo/itsa-fe-components";
+import { AppLayout, clearURLParams, IActionPanelOption, IPermissionSubmodule, mapPermissionsToMenuFormat } from "@ITSA-Nucleo/itsa-fe-components";
 import { ReactNode, useCallback, useEffect, useMemo } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "@/constants";
 import { useSettingsStore } from "@/store/settings.store";
 import { useAuthStore } from "@/store/auth/auth.store";
-import { getFormattedDataMenu, getIcon } from "@/helpers";
+import { getFormattedDataMenu } from "@/helpers";
 
 interface MainLayoutProps {
 	children: ReactNode;
@@ -79,19 +79,6 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		}));
 		const res = mapPermissionsToMenuFormat(data);
 		return res;
-		if (currentSubmodules) {
-			const res: IAppLayoutMenu[] = currentSubmodules.map(item => ({
-				icon: getIcon(item.icon),
-				title: item.name,
-				subList: item.programs.map(program => ({
-					icon: getIcon(program.icon),
-					title: program.name,
-					route: program.path,
-					isActive: true,
-				})),
-			}));
-			return res;
-		}
 	}, [currentSubmodules]);
 
 	useEffect(() => {
