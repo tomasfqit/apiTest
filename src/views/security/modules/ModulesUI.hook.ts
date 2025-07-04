@@ -3,8 +3,8 @@ import { Control, FieldValues, useForm } from "react-hook-form";
 
 export interface IModulesUIHook {
 	control: Control<FieldValues>;  
-	layoutWidth: number;
-	layoutHeight: number;
+	sWidth: number;
+	sHeight: number;
 }
 
 
@@ -13,11 +13,13 @@ export const useModulesUIHook = (): IModulesUIHook => {
 	const {  control } = useForm();
     	const layoutWidth = useLayoutWidth();
 
+        
+
 
 
 	return {
 		control,
-		layoutWidth: layoutWidth.componentWidth - 40,
-		layoutHeight: layoutWidth.componentHeight - 200,
+		sWidth: layoutWidth.componentWidth - 40,
+		sHeight: layoutWidth.componentHeight - 200,
 	};
 };

@@ -7,7 +7,7 @@ import { useModulesUIHook } from "./ModulesUI.hook";
 export const ModulesUI = () => {
 	const { programLocalPath } = useSettingsStore();
 	const { program, breadcrumbsList } = programLocalPath();
-	const { control, layoutWidth, layoutHeight } = useModulesUIHook();
+	const { control, sWidth, sHeight } = useModulesUIHook();
 
 
 
@@ -24,7 +24,7 @@ export const ModulesUI = () => {
 		isSmall
 	>
 		
-			<ModulesUIView control={control} layoutWidth={layoutWidth} layoutHeight={layoutHeight} />
+			<ModulesUIView control={control} sWidth={sWidth} sHeight={sHeight} />
 	</PageContainer>;
 };
 

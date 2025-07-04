@@ -31,19 +31,16 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	} = useSettingsStore(state => state);
 	const { logout, token, isLoading: isLoadingAuth } = useAuthStore.getState();
 
-	// Ref para medir el ancho del componente
 	const mainRef = useRef<HTMLElement>(null);
 	const [componentWidth, setComponentWidth] = useState<number>(0);
 	const [componentHeight, setComponentHeight] = useState<number>(0);
 
-	// Hook para gestionar alturas
 	const { containerStyle } = useLayoutHeights({
 		headerHeight: 90,
 		footerHeight: 69,
 		additionalOffset: -5
 	});
 
-	// Efecto para medir el ancho del componente
 	useEffect(() => {
 		const measureWidth = () => {
 			if (mainRef.current) {
@@ -51,18 +48,12 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 				setComponentWidth(width);
 				setComponentHeight(mainRef.current.offsetHeight);
 			}
-		};
-
-		// Medir inicialmente
+		}
 		measureWidth();
-
-		// Configurar ResizeObserver para cambios de tamaño
 		const resizeObserver = new ResizeObserver(measureWidth);
 		if (mainRef.current) {
 			resizeObserver.observe(mainRef.current);
 		}
-
-		// Cleanup
 		return () => {
 			resizeObserver.disconnect();
 		};
