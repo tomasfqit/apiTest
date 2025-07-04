@@ -57,3 +57,21 @@ export interface IValidateRouteResponse {
 	message: string;
 	result: boolean;
 }
+export interface IUserInformationResponse {
+	code: number;
+	message: string;
+	result: IUserInformationResult;
+}
+
+export interface IUserInformationResult {
+	identification: string;
+	identificationType: string;
+	name: string;
+	picture: string;
+	email: string;
+	roles: IRole[];
+}
+
+export interface IRole {
+	name: string;
+}

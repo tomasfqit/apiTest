@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { LoginCredentials, LoginResponse } from '@/api/auth.service';
-import { AxiosErrorType } from '@/api/config';
 
 import { cleanLocalStorage } from '../../helpers';
 
@@ -25,7 +23,6 @@ type AuthState = {
 	// Actions
 	setToken: (token: string) => void;
 	setUser: (user: User) => void;
-	login: (credentials: LoginCredentials) => Promise<void>;
 	logout: () => Promise<void>;
 	clearError: () => void;
 };
@@ -46,38 +43,6 @@ export const useAuthStore = create<AuthState>()(
 			setUser: (user: User) => {
 				set({ user }, false, 'setUser');
 			},
-
-			login: async (credentials: LoginCredentials) => {
-				set({ isLoading: true, error: null }, false, 'login-start');
-				console.log('credentials =>', credentials);
-
-				try {
-					const response: LoginResponse = await post(`${import.meta.env.VITE_API_URL}/security/login`,credentials);
-					localStorage.setItem('refresh_token', response.result.refresh);
-					set(
-						{
-							token: response.result.access,
-							user: response.result.user,
-							isAuthenticated: true,
-							isLoading: false,
-							error: null,
-						},
-						false,
-						'login-success',
-					);
-				} catch (error: unknown) {
-					const axiosError = error as AxiosErrorType;
-					set(
-						{
-							isLoading: false,
-							error: axiosError.response?.data?.message || 'Error al iniciar sesión',
-						},
-						false,
-						'login-error',
-					);
-				}
-			},
-
 			logout: async () => {
 				set({ isLoading: true }, false, 'logout-start');
 

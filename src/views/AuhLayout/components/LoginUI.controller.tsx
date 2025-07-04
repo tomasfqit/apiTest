@@ -19,8 +19,6 @@ const LoginUIController = () => {
     const { login, isLoading: isLoadingLogin } = useLoginStore();
     const { exchangeCode, isLoading: isLoadingExchangeCode } = useExchangeCodeStore();
     const { setToken } = useAuthStore.getState();
-    // const { getPermissions, isLoading: isLoadingPermissions } = useSettingsStore.getState();
-    // const navigate = useNavigate();
 
     const openModalActiveSessions = useCallback((data: ICheckSessionResult[], username: string, password: string) => {
         openModal(
@@ -34,7 +32,6 @@ const LoginUIController = () => {
 
 
     const onSubmit = useCallback((dataForm: ILoginRequest) => {
-        console.log('dataForm =>',dataForm);
         checkSession(dataForm, {
             onSuccess: (data: ICheckSessionResult[]) => {
                 if (data.length === 0) {
@@ -44,8 +41,6 @@ const LoginUIController = () => {
                                 onSuccess: async (data: IExchangeCodeResult) => {
                                     localStorage.setItem('refresh_token', data.refresh);
                                     setToken(data.access);
-                                    //await getPermissions();
-                                    //navigate("/home");
                                     window.location.href = '/home';
                                 }
                             })

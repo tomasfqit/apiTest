@@ -1,4 +1,5 @@
 export const ENDPOINTS_ROUTES = {
+	// Security
 	permissions: '/security/getPermissions/',
 	refreshToken: '/security/refresh/',
 	exchangeCode: '/security/exchangecode/',
@@ -7,4 +8,5 @@ export const ENDPOINTS_ROUTES = {
 	checkSession: '/security/checkSession/',
 	closeSession: '/security/closeSession/',
 	validateRoute: '/security/validate-route/',
+	userInformation: '/security/user-information',
 };

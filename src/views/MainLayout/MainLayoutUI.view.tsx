@@ -9,6 +9,7 @@ import { useAuthStore } from "@/store/auth/auth.store";
 import { getFormattedDataMenu } from "@/helpers";
 import { useLayoutHeights } from "./MainLayoutUI.hook";
 import { LayoutContext } from "@/hooks/useLayoutWidth";
+import { useUserInformationStore } from "@/store/auth/user.store";
 
 
 interface MainLayoutProps {
@@ -34,6 +35,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	const mainRef = useRef<HTMLElement>(null);
 	const [componentWidth, setComponentWidth] = useState<number>(0);
 	const [componentHeight, setComponentHeight] = useState<number>(0);
+	const { fetchUserInformation, data: dataUser, isLoading: isLoadingUserInformation } = useUserInformationStore();
 
 	const { containerStyle } = useLayoutHeights({
 		headerHeight: 90,
@@ -57,7 +59,8 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		return () => {
 			resizeObserver.disconnect();
 		};
-	}, []);
+		
+	}, [dataUser, fetchUserInformation, isLoadingUserInformation]);
 
 	const handleAgency = useCallback((agencyId: number, agencyName: string) => {
 		setCurrentAgency(agencyName);
@@ -102,7 +105,8 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 			getPermissionsUser();
 			clearURLParams();
 		}
-	}, [getPermissions, permissions, isLoadingAuth, token]);
+		fetchUserInformation({});
+	}, [getPermissions, permissions, isLoadingAuth, token, fetchUserInformation]);
 
 	return (
 		<LayoutContext.Provider value={{ componentWidth, componentHeight }}>
@@ -111,7 +115,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					linkComponent={RouterLink}
 					isLoading={isLoading || menuOptions?.length === 0}
 					currentPath={location.pathname}
-					avatar={{ name: 'Jan Acuna' }}
+					avatar={{ name: dataUser?.name ?? '' }}
 					headerTitles={{
 						agency: `Agencia - ${currentAgency ?? ''}`,
 						module: `Linea - ${currentModule}`,
@@ -126,8 +130,8 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					agencies={actionPanelAgencies}
 					settings={[
 						{
-							title: 'Cuenta',
-							route: '/account',
+							title: `${dataUser?.name ?? ''}`,
+							route: '',
 						},
 						{
 							title: 'Configuraciones',
