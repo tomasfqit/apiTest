@@ -4,7 +4,7 @@ import { ROUTES } from './Paths';
 import { AuthLayoutUI } from '../views/AuhLayout/AuthLayoutUI.view';
 import LoginUIController from '@/views/AuhLayout/components/LoginUI.controller';
 import MainLayoutUI from '@/views/MainLayout/MainLayoutUI.Controller';
-import ModulesUI from '@/views/security/modules/ModulesUI.controller';
+import ModulesUI from '@/views/Security/Modules/ModulesUI.controller';
 import { DashboardUI } from '@/views/Dashboard/DashboardUI.controller';
 
 export interface RouteConfig {

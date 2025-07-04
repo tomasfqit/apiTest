@@ -2,6 +2,7 @@ import { Button, Input, Table } from "@ITSA-Nucleo/itsa-fe-components";
 import { IModulesUIHook } from "./ModulesUI.hook";
 
 
+
 export const ModulesUIView: React.FC<IModulesUIHook> = ({ control, sWidth, sHeight }) => {
 	return (
 		<div className="flex flex-col gap-4" style={{ width: sWidth}}>

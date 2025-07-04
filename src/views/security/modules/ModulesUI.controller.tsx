@@ -1,8 +1,8 @@
 import { PageContainer } from "@ITSA-Nucleo/itsa-fe-components";
-import { ModulesUIView } from "./ModulesUI.view";
 import { Link as RouterLink } from 'react-router-dom';
 import { useSettingsStore } from "@/store/settings.store";
 import { useModulesUIHook } from "./ModulesUI.hook";
+import { ModulesUIView } from "./ModulesUI.view";
 
 export const ModulesUI = () => {
 	const { programLocalPath } = useSettingsStore();
