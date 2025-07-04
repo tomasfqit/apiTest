@@ -14,7 +14,7 @@ interface FunctionProps {
 interface IState {
 	isLoading: boolean;
 	error: string | null;
-	data?: IUserInformationResult;
+	userInformation?: IUserInformationResult;
 	fetchUserInformation: ({ onSuccess, onError }: FunctionProps) => void;
 	clearUserData: () => void;
 	clearError: () => void;
@@ -23,7 +23,7 @@ interface IState {
 export const useUserInformationStore = create<IState>((set) => ({
 	isLoading: false,
 	error: null,
-	data: undefined,
+	userInformation: undefined,
 	
 	fetchUserInformation: async ({ onSuccess, onError }: FunctionProps) => {
 		set({ isLoading: true, error: null });
@@ -33,7 +33,7 @@ export const useUserInformationStore = create<IState>((set) => ({
 			() => axiosInstance.get(ENDPOINTS_ROUTES.userInformation),
 			res => {
 				const result = res.data.result;
-				set({ data: result, error: null });
+				set({ userInformation: result, error: null });
 				onSuccess?.(result);
 			},
 			err => {
@@ -48,7 +48,7 @@ export const useUserInformationStore = create<IState>((set) => ({
 	},
 	
 	clearUserData: () => {
-		set({ data: undefined, error: null });
+		set({ userInformation: undefined, error: null });
 	},
 	
 	clearError: () => {

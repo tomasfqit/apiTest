@@ -35,7 +35,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	const mainRef = useRef<HTMLElement>(null);
 	const [componentWidth, setComponentWidth] = useState<number>(0);
 	const [componentHeight, setComponentHeight] = useState<number>(0);
-	const { fetchUserInformation, data: dataUser, isLoading: isLoadingUserInformation } = useUserInformationStore();
+	const { fetchUserInformation, userInformation } = useUserInformationStore();
 
 	const { containerStyle } = useLayoutHeights({
 		headerHeight: 90,
@@ -60,7 +60,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 			resizeObserver.disconnect();
 		};
 		
-	}, [dataUser, fetchUserInformation, isLoadingUserInformation]);
+	}, [fetchUserInformation]);
 
 	const handleAgency = useCallback((agencyId: number, agencyName: string) => {
 		setCurrentAgency(agencyName);
@@ -115,7 +115,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					linkComponent={RouterLink}
 					isLoading={isLoading || menuOptions?.length === 0}
 					currentPath={location.pathname}
-					avatar={{ name: dataUser?.name ?? '' }}
+					avatar={{ name: userInformation?.name ?? '' }}
 					headerTitles={{
 						agency: `Agencia - ${currentAgency ?? ''}`,
 						module: `Linea - ${currentModule}`,
@@ -130,8 +130,8 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					agencies={actionPanelAgencies}
 					settings={[
 						{
-							title: `${dataUser?.name ?? ''}`,
-							route: '',
+							title: `${userInformation?.name ?? ''}`,
+							route: '',	
 						},
 						{
 							title: 'Configuraciones',
