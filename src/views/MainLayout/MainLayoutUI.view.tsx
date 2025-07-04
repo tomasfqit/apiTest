@@ -6,7 +6,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { LOCAL_STORAGE_NAMES } from "@/constants";
 import { useSettingsStore } from "@/store/settings.store";
 import { useAuthStore } from "@/store/auth/auth.store";
-import { getFormattedDataMenu, getIconByName } from "@/helpers";
+import { getFormattedDataMenu } from "@/helpers";
 import { useLayoutHeights } from "./MainLayoutUI.hook";
 
 interface MainLayoutProps {
@@ -66,25 +66,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 	}, [modules]);
 
 	const menuOptions = useMemo(() => {
-		const data: IPermissionSubmodule[] = currentSubmodules.map(item => ({
-			id: item.id,
-			name: item.name,
-			icon: getIconByName(item.icon),
-			programs: item.programs.map(program => ({
-				id: program.id,
-				name: program.name,
-				icon: getIconByName(program.icon),
-				path: program.path ?? '',
-				actions: {
-					update: program.actions.actualizar,
-					delete: program.actions.eliminar,
-					create: program.actions.escribir,
-					read: program.actions.leer,
-					all_actions: program.actions.todas_acciones,
-				},
-			})),
-			path: item.path ?? '',
-		}));
+		const data = currentSubmodules as unknown as IPermissionSubmodule[];
 		const res = mapPermissionsToMenuFormat(data);
 		return res;
 	}, [currentSubmodules]);
