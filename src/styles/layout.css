@@ -15,7 +15,7 @@
 /* Height variations */
 .layout-main--header-86 {
 	--header-height: 86px;
-	--footer-height: 69px;
+	--footer-height: 79px;
 	min-height: calc(100vh - var(--header-height));
 	max-height: calc(100vh - var(--footer-height));
 }
