@@ -1,16 +1,9 @@
-import { useEffect } from 'react';
-import { useAuthStore } from './store/auth/auth.store';
 import { AppRouter } from './router/AppRouter';
 import { THEME } from './constants';
-import { UIProvider } from '@ITSA-Nucleo/itsa-fe-components';
+import { Modal, UIProvider } from '@ITSA-Nucleo/itsa-fe-components';
+import { Toaster } from 'sonner';
 
 const App = () => {
-	const { checkAuth } = useAuthStore();
-
-	useEffect(() => {
-		// Verificar autenticación al cargar la aplicación
-		checkAuth();
-	}, [checkAuth]);
 
 	return <UIProvider
 		themeOptions={{
@@ -24,8 +17,10 @@ const App = () => {
 		}}
 	>
 		<AppRouter />
+		<Toaster />
+		<Modal />
 	</UIProvider>
-		;
+		
 };
 
 export default App;

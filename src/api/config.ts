@@ -15,7 +15,7 @@ export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 	skipAuth?: boolean;
 }
 
-interface RefreshTokenResponse {
+export interface RefreshTokenResponse {
 	result: {
 		access: string;
 		refresh: string;
@@ -41,7 +41,7 @@ export const instanceAXIOS = axios.create({
 	},
 });
 
-export const 	fetchAccessToken = async (): Promise<string | null> => {
+export const fetchAccessToken = async (): Promise<string | null> => {
 	const { token, setToken } = useAuthStore.getState();
 	if (token) {
 		accessToken = token;
@@ -58,6 +58,7 @@ export const 	fetchAccessToken = async (): Promise<string | null> => {
 		const response = await securityInstance.post<RefreshTokenResponse>(ENDPOINTS_ROUTES.refreshToken, {
 			refresh: refreshToken,
 		});
+
 		accessToken = response.data.result.access;
 		setToken(accessToken);
 		localStorage.setItem('refresh_token', response.data.result.refresh);

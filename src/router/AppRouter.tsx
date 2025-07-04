@@ -8,6 +8,7 @@ import { getRoutesConfig } from './RouterComponents';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 export const AppRouter = () => {
+	
 	const [authChecked, setAuthChecked] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const navigate = useNavigate();

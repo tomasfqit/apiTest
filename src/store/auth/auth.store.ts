@@ -1,10 +1,13 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { authService, LoginCredentials, LoginResponse } from '@/api/auth.service';
-import { AxiosErrorType, fetchAccessToken } from '@/api/config';
+import { LoginCredentials, LoginResponse } from '@/api/auth.service';
+import { AxiosErrorType } from '@/api/config';
 
 import { cleanLocalStorage } from '../../helpers';
+
+import {post} from '@/api/config'
+import { ENDPOINTS_ROUTES } from '@/api/enpointsRoute';
 
 interface User {
 	id: string;
@@ -25,11 +28,10 @@ type AuthState = {
 	login: (credentials: LoginCredentials) => Promise<void>;
 	logout: () => Promise<void>;
 	clearError: () => void;
-	checkAuth: () => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>()(
-	devtools(
+	devtools(	
 		set => ({
 			token: null,
 			user: null,
@@ -50,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
 				console.log('credentials =>', credentials);
 
 				try {
-					const response: LoginResponse = await authService.login(credentials);
+					const response: LoginResponse = await post(`${import.meta.env.VITE_API_URL}/security/login`,credentials);
 					localStorage.setItem('refresh_token', response.result.refresh);
 					set(
 						{
@@ -81,8 +83,8 @@ export const useAuthStore = create<AuthState>()(
 
 				try {
 					const refreshToken = localStorage.getItem('refresh_token');
+					await post(`${import.meta.env.VITE_API_URL}${ENDPOINTS_ROUTES.logout}`,{refresh: refreshToken});
 					if (refreshToken) {
-						await authService.logout(refreshToken);
 						cleanLocalStorage();
 						window.location.href = '/login';
 					}
@@ -109,43 +111,8 @@ export const useAuthStore = create<AuthState>()(
 				set({ error: null }, false, 'clearError');
 			},
 
-			checkAuth: async () => {
-				set({ isLoading: true });
-				const token = await fetchAccessToken();
-
-				if (token) {
-					set({ token, isAuthenticated: true }, false, 'checkAuth-valid');
-				} else {
-					set({ token: null, isAuthenticated: false }, false, 'checkAuth-invalid');
-				}
-				set({ isLoading: false });
-
-
-			},
+			
 		}),
 		{ name: 'AuthStore' },
 	),
 );
-//"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MTY1Nzk1NCwiaWF0IjoxNzUxNTcxNTU0LCJqdGkiOiI4YTExNDc2ZjExZTY0YzRiYmE0NGEyYTgwMWFlYjgxZCIsInVzZXJfaWQiOjE5fQ.ykVpJ3skmLP1cyXPT0VuUHFgsI3twz-sCp41pYJCWVc",
-//"access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNTg5NTU0LCJpYXQiOjE3NTE1NzE1NTQsImp0aSI6ImM5MTA0MzdiY2IxOTRkMTJiN2ZlNGM4MDEwMTNhMTdkIiwidXNlcl9pZCI6MTksInNlc3Npb25faWQiOjc0MH0.aQbLbEPgPoM934ixVR596dE6Xj78kHdi3ljzT_W0hnI"
-				// // const token = localStorage.getItem('access_token');
-				// // set({ token, isAuthenticated: true }, false, 'checkAuth-valid');
-				// const token = localStorage.getItem('access_token');
-				// if (token) {
-				// 	const isValid = await authService.verifyAuth();
-				// 	if (isValid) {
-				// 		set({ token, isAuthenticated: true }, false, 'checkAuth-valid');
-				// 	} else {
-				// 		// Token inválido, limpiar estado
-				// 		cleanLocalStorage();
-				// 		set(
-				// 			{
-				// 				token: null,
-				// 				user: null,
-				// 				isAuthenticated: false,
-				// 			},
-				// 			false,
-				// 			'checkAuth-invalid',
-				// 		);
-				// 	}
-				// }
