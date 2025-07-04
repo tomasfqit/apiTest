@@ -118,7 +118,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 					avatar={{ name: userInformation?.name ?? '' }}
 					headerTitles={{
 						agency: `Agencia - ${currentAgency ?? ''}`,
-						module: `Linea - ${currentModule}`,
+						module: `Modulo - ${currentModule}`,
 					}}
 					notifications={[
 						{

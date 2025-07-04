@@ -9,4 +9,5 @@ export const ENDPOINTS_ROUTES = {
 	closeSession: '/security/closeSession/',
 	validateRoute: '/security/validate-route/',
 	userInformation: '/security/user-information',
+	securityModules: '/security/modules',
 };

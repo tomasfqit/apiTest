@@ -3,12 +3,12 @@ import { devtools } from 'zustand/middleware';
 import { LOCAL_STORAGE_NAMES } from '@/constants';
 
 import axios from 'axios';
-import { IAgenciesAccess, IAgencyModules, IModules, IPermissionResponse, ISubModules } from '@/interfaces/IMenuItems';
+import { IAgenciesAccess, IAgencyModules, IModules, IPermissionResponse, IPrograms, ISubModules } from '@/interfaces/IMenuItems';
 import { useAuthStore } from './auth/auth.store';
 import { ENDPOINTS_ROUTES } from '@/api/enpointsRoute';
 
 interface IProgramLocalPath {
-	program: string;
+	program?: IPrograms;
 	currentSubmodule: string;
 	breadcrumbsList: {
 		label: string;
@@ -74,7 +74,7 @@ export const useSettingsStore = create<SettingsState>()(
 				const { currentSubmodules, currentModule } = get();
 				const localPath = location.pathname;
 
-				let program = '';
+				let program: IPrograms | null = null;
 				let currentSubmodule = '';
 				const breadcrumbsList = [{ label: currentModule ?? '', route: '' }];
 
@@ -86,13 +86,11 @@ export const useSettingsStore = create<SettingsState>()(
 				if (foundSubmodule) {
 					currentSubmodule = foundSubmodule.name ?? '';
 					breadcrumbsList.push({ label: currentSubmodule, route: '' });
-
 					const foundProgram = (foundSubmodule.programs ?? []).find(programItem => programItem?.path === localPath);
 					if (foundProgram) {
-						program = foundProgram.name;
+						program = foundProgram;
 					}
 				}
-
 				return { program, currentSubmodule, breadcrumbsList };
 			},
 			getPermissions: async () => {

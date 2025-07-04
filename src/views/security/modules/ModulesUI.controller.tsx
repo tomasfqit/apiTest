@@ -1,3 +1,4 @@
+"use client";
 import { PageContainer } from "@ITSA-Nucleo/itsa-fe-components";
 import { Link as RouterLink } from 'react-router-dom';
 import { useSettingsStore } from "@/store/settings.store";
@@ -15,10 +16,10 @@ export const ModulesUI = () => {
 		linkComponent={RouterLink}
 		breadCrumbsList={{
 			list: breadcrumbsList,
-			lastBreadcrumbLabel: program,	
+			lastBreadcrumbLabel: program?.name ?? '',	
 		}}
 		title={{
-			text: program,
+			text: program?.name ?? '',
 			level: 4,
 		}}
 		isSmall

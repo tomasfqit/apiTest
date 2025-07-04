@@ -49,11 +49,11 @@ export interface IGroups {
 }
 
 export interface IActions {
-	todas_acciones: number;
-	leer: number;
-	escribir: number;
-	actualizar: number;
-	eliminar: number;
+	all_actions: number;
+	create: number;
+	delete: number;
+	read: number;
+	update: number;	
 }
 
 export interface IValidateRouteRequest {
