@@ -5,7 +5,7 @@ import { AuthLayoutUI } from '../views/AuhLayout/AuthLayoutUI.view';
 import LoginUIController from '@/views/AuhLayout/components/LoginUI.controller';
 import MainLayoutUI from '@/views/MainLayout/MainLayoutUI.Controller';
 import ModulesUI from '@/views/security/modules/ModulesUI.controller';
-import DashboardView from '@/views/Dashboard/Dashboard.view';
+import { DashboardUI } from '@/views/Dashboard/DashboardUI.controller';
 
 export interface RouteConfig {
     path: string;
@@ -54,7 +54,7 @@ export const getRoutesConfig = (isAuth: boolean): RouteConfig[] => {
 
     routes.push({
         path: ROUTES.DASHBOARD,
-        element: newRoute(DashboardView, 'main', isAuth)
+        element: newRoute(DashboardUI, 'main', isAuth)
     });
 
     //security
