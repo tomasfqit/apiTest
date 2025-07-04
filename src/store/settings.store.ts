@@ -69,43 +69,30 @@ export const useSettingsStore = create<SettingsState>()(
 			},
 			getExchangeCode: async (claimCode: string) => {
 				console.log('claimCode =>', claimCode);
-				
 			},
 			programLocalPath: () => {
 				const { currentSubmodules, currentModule } = get();
 				const localPath = location.pathname;
-				
-				let program: string = '';
-				let currentSubmodule: string = '';
-				const breadcrumbsList: {
-					label: string;
-					route: string;
-				}[] = [];
 
-				breadcrumbsList.push(
-					{
-						label: currentModule ?? '',
-						route: '',
-					},
+				let program = '';
+				let currentSubmodule = '';
+				const breadcrumbsList = [{ label: currentModule ?? '', route: '' }];
+
+				// Buscar el submódulo y programa correspondiente
+				const foundSubmodule = currentSubmodules.find(submodule =>
+					(submodule?.programs ?? []).some(programItem => programItem?.path === localPath),
 				);
 
-				for (let index = 0; index < currentSubmodules.length; index++) {
-					const programs = currentSubmodules[index]?.programs ?? [];
-					for (let indexProgram = 0; indexProgram < programs.length; indexProgram++) {
-						const programItem = programs[indexProgram];
-						if (programItem?.path === localPath) {
-							program = programItem.name;
-							currentSubmodule = currentSubmodules[index]?.name ?? '';
-							breadcrumbsList.push(
-								{
-									label: currentSubmodule,
-									route: '',
-								}
-							);
-							break;
-						}
+				if (foundSubmodule) {
+					currentSubmodule = foundSubmodule.name ?? '';
+					breadcrumbsList.push({ label: currentSubmodule, route: '' });
+
+					const foundProgram = (foundSubmodule.programs ?? []).find(programItem => programItem?.path === localPath);
+					if (foundProgram) {
+						program = foundProgram.name;
 					}
 				}
+
 				return { program, currentSubmodule, breadcrumbsList };
 			},
 			getPermissions: async () => {
@@ -146,9 +133,12 @@ export const useSettingsStore = create<SettingsState>()(
 				} catch (error) {
 					console.error('Error al obtener los permisos:', error);
 					set({ isLoading: false });
-					set({ permissions: {
-						agencies: [],
-					}, isLoading: false });
+					set({
+						permissions: {
+							agencies: [],
+						},
+						isLoading: false,
+					});
 					return false;
 				}
 			},
