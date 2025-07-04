@@ -2,14 +2,14 @@ import { Button, Input, Table } from "@ITSA-Nucleo/itsa-fe-components";
 import { IModulesUIHook } from "./ModulesUI.hook";
 
 
-export const ModulesUIView: React.FC<IModulesUIHook> = ({ control, layoutWidth }) => {
+export const ModulesUIView: React.FC<IModulesUIHook> = ({ control, layoutWidth, layoutHeight }) => {
 	return (
-		<div className="flex flex-col gap-4 w-[80vw]  h-[500px] " style={{ width: layoutWidth-40 }}>
+		<div className="flex flex-col gap-4" style={{ width: layoutWidth}}>
 			<div className="flex flex-row gap-2 w-full items-center justify-between">
 				<Input label="Buscar" placeholder="Buscar" name="search" control={control} />
 				<Button text="Nuevo" onClick={() => {}} size="large" />
 			</div>
-			<div className="flex flex-col gap-4 w-full max-h-[500px] overflow-auto">
+			<div className="flex flex-col gap-4 w-full max-h-flex overflow-auto" style={{ height: layoutHeight }}>
 				<Table
 					columns={[
 						'ID',

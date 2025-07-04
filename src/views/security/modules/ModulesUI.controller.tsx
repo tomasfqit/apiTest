@@ -3,13 +3,12 @@ import { ModulesUIView } from "./ModulesUI.view";
 import { Link as RouterLink } from 'react-router-dom';
 import { useSettingsStore } from "@/store/settings.store";
 import { useModulesUIHook } from "./ModulesUI.hook";
-import { useLayoutWidth } from "@/views/MainLayout/MainLayoutUI.view";
 
 export const ModulesUI = () => {
 	const { programLocalPath } = useSettingsStore();
-	const layoutWidth = useLayoutWidth();
 	const { program, breadcrumbsList } = programLocalPath();
-	const { control } = useModulesUIHook();
+	const { control, layoutWidth, layoutHeight } = useModulesUIHook();
+
 
 
 	return <PageContainer
@@ -25,7 +24,7 @@ export const ModulesUI = () => {
 		isSmall
 	>
 		
-			<ModulesUIView control={control} layoutWidth={layoutWidth} />
+			<ModulesUIView control={control} layoutWidth={layoutWidth} layoutHeight={layoutHeight} />
 	</PageContainer>;
 };
 
