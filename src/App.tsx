@@ -12,7 +12,6 @@ const App = () => {
 					main: THEME.primaryColor,
 					contrastText: THEME.contrastText,
 				},
-
 			},
 		}}
 	>
