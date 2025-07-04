@@ -3,10 +3,18 @@ import { devtools } from 'zustand/middleware';
 import { LOCAL_STORAGE_NAMES } from '@/constants';
 
 import axios from 'axios';
-import { IAgenciesAccess, IAgencyModules, IModules, IPermissionResponse, IPrograms, ISubModules } from '@/interfaces/IMenuItems';
+import { IAgenciesAccess, IAgencyModules, IModules, IPermissionResponse, ISubModules } from '@/interfaces/IMenuItems';
 import { useAuthStore } from './auth/auth.store';
 import { ENDPOINTS_ROUTES } from '@/api/enpointsRoute';
 
+interface IProgramLocalPath {
+	program: string;
+	currentSubmodule: string;
+	breadcrumbsList: {
+		label: string;
+		route: string;
+	}[];
+}
 
 type SettingsState = {
 	currentAgency: string | null;
@@ -19,7 +27,7 @@ type SettingsState = {
 	permissions: IAgenciesAccess | null;
 	isLoading: boolean;
 
-	programLocalPath: () => ISubModules | null;
+	programLocalPath: () => IProgramLocalPath;
 	setCurrentAgency: (agency: string) => void;
 	setCurrentModule: (module: string) => void;
 	setCurrentSubmodules: (subModules: ISubModules[]) => void;
@@ -28,6 +36,7 @@ type SettingsState = {
 	getExchangeCode: (claimCode: string, version?: string) => Promise<void>;
 	getPermissions: () => Promise<boolean>;
 	getCountryLabelById: (countryId: number) => string;
+	
 };
 
 export const useSettingsStore = create<SettingsState>()(
@@ -60,33 +69,44 @@ export const useSettingsStore = create<SettingsState>()(
 			},
 			getExchangeCode: async (claimCode: string) => {
 				console.log('claimCode =>', claimCode);
-				// try {
-				// 	const res = await get(ENDPOINTS_ROUTES.exchangeCode, {
-				// 		params: { claimCode },
-				// 		skipAuth: true,
-				// 	} as CustomAxiosRequestConfig);
-				// 	const { access, refresh } = res.data.result;
-				// 	const { setToken } = useAuthStore.getState();
-				// 	localStorage.setItem('refresh_token', refresh);
-				// 	setToken(access);
-				// } catch (error) {
-				// 	console.error('Error al obtener el token desde claimCode:', error);
-				// }
+				
 			},
 			programLocalPath: () => {
-				const { currentSubmodules } = get();
+				const { currentSubmodules, currentModule } = get();
 				const localPath = location.pathname;
-				let program: IPrograms | null = null;
+				
+				let program: string = '';
+				let currentSubmodule: string = '';
+				const breadcrumbsList: {
+					label: string;
+					route: string;
+				}[] = [];
+
+				breadcrumbsList.push(
+					{
+						label: currentModule ?? '',
+						route: '',
+					},
+				);
+
 				for (let index = 0; index < currentSubmodules.length; index++) {
 					const programs = currentSubmodules[index]?.programs ?? [];
 					for (let indexProgram = 0; indexProgram < programs.length; indexProgram++) {
 						const programItem = programs[indexProgram];
 						if (programItem?.path === localPath) {
-							program = programItem;
+							program = programItem.name;
+							currentSubmodule = currentSubmodules[index]?.name ?? '';
+							breadcrumbsList.push(
+								{
+									label: currentSubmodule,
+									route: '',
+								}
+							);
+							break;
 						}
 					}
 				}
-				return program;
+				return { program, currentSubmodule, breadcrumbsList };
 			},
 			getPermissions: async () => {
 				const { setCurrentAgency, setModules, setCurrentModule, setAgencies, setCurrentSubmodules } = get();

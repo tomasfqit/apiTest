@@ -4,13 +4,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useSettingsStore } from "@/store/settings.store";
 
 export const ModulesUI = () => {
-	const { currentModule } = useSettingsStore();
-	const program = "MÓDULOS";
-	
+	const { programLocalPath } = useSettingsStore();
+	const { program, breadcrumbsList } = programLocalPath();
+
+
 	return <PageContainer
 		linkComponent={RouterLink}
 		breadCrumbsList={{
-			list: [{ route: '/', label: currentModule ?? '' }],
+			list: breadcrumbsList,
 			lastBreadcrumbLabel: program,	
 		}}
 		title={{
