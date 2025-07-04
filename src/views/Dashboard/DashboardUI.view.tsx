@@ -24,7 +24,7 @@ const DashboardView: React.FC<IDashboardUIHook> = ({ control, shareText }) => {
 
 	return (
 
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-6  w-full h-full">
 			<Input name="shareText" label="Buscar modulo" control={control} />
 			{modules?.map(modulo => (
 				<div key={modulo.id} onClick={() => handleModule(modulo.name)} className="flex items-center justify-center gap-2 max-w-auto">

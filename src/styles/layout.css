@@ -1,0 +1,62 @@
+/* Layout Height Utilities */
+.layout-container {
+	width: 100vw;
+	height: 100vh;
+}
+
+.layout-main {
+	min-width: 250px;
+	max-width: 1446px;
+	background-color: rgb(243 244 246); /* bg-gray-100 */
+	flex: 1;
+	overflow: auto;
+}
+
+/* Height variations */
+.layout-main--header-86 {
+	--header-height: 86px;
+	--footer-height: 69px;
+	min-height: calc(100vh - var(--header-height));
+	max-height: calc(100vh - var(--footer-height));
+}
+
+.layout-main--header-100 {
+	--header-height: 100px;
+	--footer-height: 69px;
+	min-height: calc(100vh - var(--header-height));
+	max-height: calc(100vh - var(--footer-height));
+}
+
+.layout-main--compact {
+	--header-height: 60px;
+	--footer-height: 50px;
+	min-height: calc(100vh - var(--header-height));
+	max-height: calc(100vh - var(--footer-height));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.layout-main {
+		min-width: 100%;
+		max-width: 100%;
+	}
+	
+	.layout-main--header-86 {
+		--header-height: 70px;
+		--footer-height: 60px;
+	}
+}
+
+/* Scroll behavior */
+.layout-main--smooth-scroll {
+	scroll-behavior: smooth;
+}
+
+.layout-main--hide-scrollbar {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE and Edge */
+}
+
+.layout-main--hide-scrollbar::-webkit-scrollbar {
+	display: none; /* Chrome, Safari, Opera */
+} 

@@ -7,6 +7,7 @@ import { LOCAL_STORAGE_NAMES } from "@/constants";
 import { useSettingsStore } from "@/store/settings.store";
 import { useAuthStore } from "@/store/auth/auth.store";
 import { getFormattedDataMenu, getIconByName } from "@/helpers";
+import { useLayoutHeights } from "./MainLayoutUI.hook";
 
 interface MainLayoutProps {
 	children: ReactNode;
@@ -27,6 +28,13 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		getPermissions,
 	} = useSettingsStore(state => state);
 	const { logout, token, isLoading: isLoadingAuth } = useAuthStore.getState();
+
+	// Hook para gestionar alturas
+	const { containerStyle } = useLayoutHeights({
+		headerHeight: 90,
+		footerHeight: 69,
+		additionalOffset: -20
+	});
 
 	const handleAgency = useCallback((agencyId: number, agencyName: string) => {
 		setCurrentAgency(agencyName);
@@ -91,7 +99,7 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 		}
 	}, [getPermissions, permissions, isLoadingAuth, token]);
 
-	return <div className="w-[100vw] h-[100vh]">
+	return <div className="layout-container">
 		<AppLayout
 			linkComponent={RouterLink}
 			isLoading={isLoading || menuOptions?.length === 0}
@@ -129,12 +137,12 @@ export const MainLayoutUIView = ({ children }: MainLayoutProps) => {
 			]}
 			options={menuOptions ?? []} // TODO update this in component library
 		>
-			<div
-				className="min-w-[250px] max-w-[1446px] h-[calc(100vh-69px)] bg-gray-100" hidden={isLoading}>
-				<main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-					{children}
-				</main>
-			</div>
+			<main 
+				className="min-w-[250px] max-w-[1446px] bg-gray-100 mt-0.5 flex-1 overflow-auto"
+				style={containerStyle}
+			>
+				{children}
+			</main>
 		</AppLayout>
 	</div>;
 };
